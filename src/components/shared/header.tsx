@@ -63,7 +63,7 @@ function UserNav() {
         <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-8 w-8 rounded-full">
             <Avatar className="h-9 w-9">
-                <AvatarImage src="https://placehold.co/40x40.png" alt="@user" />
+                <AvatarImage src="https://placehold.co/40x40.png" alt="@user" data-ai-hint="person avatar"/>
                 <AvatarFallback><User/></AvatarFallback>
             </Avatar>
             </Button>
@@ -101,7 +101,7 @@ export function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         {/* Mobile Menu & Logo */}
-        <div className="md:hidden flex items-center">
+        <div className="flex items-center md:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -119,25 +119,25 @@ export function Header() {
             </SheetContent>
           </Sheet>
         </div>
-        <div className="md:hidden flex-1 flex justify-center">
+        <div className="flex-1 flex justify-center md:hidden">
           <Logo />
         </div>
-        <div className="md:hidden" style={{width: '56px'}}></div> {/* Spacer for mobile */}
+        <div className="md:hidden" style={{width: '56px'}}></div> {/* Spacer for mobile right side */}
 
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex items-center w-full">
-            <div className="flex-1">
+        <div className="hidden md:flex md:items-center md:w-full">
+            <div className="flex-none">
                 <Logo />
             </div>
             
             <nav className="flex-1 flex justify-center items-center gap-6 text-sm">
-            {navLinks.map((link) => (
-                <NavLink key={link.href} {...link} />
-            ))}
+              {navLinks.map((link) => (
+                  <NavLink key={link.href} {...link} />
+              ))}
             </nav>
 
-            <div className="flex-1 flex justify-end">
+            <div className="flex-none">
                 <UserNav />
             </div>
         </div>

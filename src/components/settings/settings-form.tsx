@@ -22,6 +22,8 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Save, Sparkles, Film, Loader2 } from 'lucide-react';
 import { useState } from 'react';
+import { generateVideoResume } from '@/app/(app)/settings/actions';
+import { Alert, AlertTitle, AlertDescription } from '../ui/alert';
 
 const profileFormSchema = z.object({
   name: z.string().min(2, {
@@ -63,12 +65,14 @@ const defaultValues: Partial<ProfileFormValues> = {
   jobPreferences: userProfile.jobPreferences,
   skills: userProfile.skills.join(', '),
   rate: userProfile.rate,
-  videoScript: `Hello, my name is ${userProfile.name}. As a ${userProfile.title}, I specialize in ${userProfile.skills.slice(0,2).join(' and ')}. I'm passionate about ${userProfile.jobPreferences.toLowerCase().substring(0, 50)}... Let's create something amazing together.`
+  videoScript: `Hello, my name is ${userProfile.name}. As a ${userProfile.title}, I specialize in ${userProfile.skills.slice(0,2).join(' and ')}. I'm passionate about my work and I am looking for new opportunities. Let's create something amazing together.`,
 };
 
 export function SettingsForm() {
     const { toast } = useToast();
     const [isGenerating, setIsGenerating] = useState(false);
+    const [generationError, setGenerationError] = useState<string | null>(null);
+    const [generatedVideoUrl, setGeneratedVideoUrl] = useState<string | null>(null);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
@@ -87,23 +91,40 @@ export function SettingsForm() {
 
     async function handleGenerateVideo() {
         setIsGenerating(true);
+        setGenerationError(null);
+        setGeneratedVideoUrl(null);
+
         const script = form.getValues('videoScript');
-        // In a real app, you would call the AI video generation flow here.
-        // For this demo, we'll just simulate it.
+        if (!script || script.trim().length < 20) {
+            setGenerationError("Please provide a script with at least 20 characters.");
+            setIsGenerating(false);
+            return;
+        }
         
         toast({
             title: 'Video Generation Started!',
-            description: "We're creating your video. This may take a few minutes. We'll notify you when it's ready.",
+            description: "We're creating your video. This may take a few minutes...",
         });
 
-        setTimeout(() => {
-            setIsGenerating(false);
-            toast({
+        const result = await generateVideoResume({ script, freelancerId: userProfile.id });
+
+        if (result.success && result.url) {
+             toast({
                 title: 'Video Ready!',
-                description: "Your new AI-generated video resume has been added to your profile.",
+                description: "Your new AI-generated video resume is ready below.",
                 className: "bg-primary text-primary-foreground border-primary",
             });
-        }, 5000); // Simulate a 5-second generation time
+            setGeneratedVideoUrl(result.url);
+        } else {
+            setGenerationError(result.error ?? "An unknown error occurred during video generation.");
+             toast({
+                title: 'Generation Failed',
+                description: result.error,
+                variant: 'destructive',
+            });
+        }
+
+        setIsGenerating(false);
     }
 
     return (
@@ -235,7 +256,7 @@ export function SettingsForm() {
                     </CardContent>
                 </Card>
             </div>
-             <div className="lg:col-span-1">
+             <div className="lg:col-span-1 space-y-4">
                 <Card className="sticky top-24">
                     <CardHeader>
                         <CardTitle className="flex items-center gap-2"><Film /> AI Video Resume</CardTitle>
@@ -266,7 +287,7 @@ export function SettingsForm() {
                                     {isGenerating ? (
                                         <>
                                             <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                                            Generating...
+                                            Generating... (this may take a minute)
                                         </>
                                     ) : (
                                         <>
@@ -277,8 +298,32 @@ export function SettingsForm() {
                                 </Button>
                             </form>
                         </Form>
+                         {generationError && (
+                            <Alert variant="destructive" className="mt-4">
+                                <AlertTitle>Generation Failed</AlertTitle>
+                                <AlertDescription>{generationError}</AlertDescription>
+                            </Alert>
+                        )}
                     </CardContent>
                 </Card>
+                {generatedVideoUrl && (
+                     <Card>
+                        <CardHeader>
+                            <CardTitle>Generated Video</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            <div className="aspect-video rounded-lg overflow-hidden border">
+                                <video
+                                    src={generatedVideoUrl}
+                                    controls
+                                    className="w-full h-full"
+                                >
+                                    Your browser does not support the video tag.
+                                </video>
+                            </div>
+                        </CardContent>
+                    </Card>
+                )}
             </div>
         </div>
     )

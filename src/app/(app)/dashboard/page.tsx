@@ -48,7 +48,7 @@ export default function DashboardPage() {
     )
 
   return (
-      <main className="flex-1">
+      <div className="flex-1 px-4 md:px-6">
         {/* Hero Section */}
         <section className="relative py-20 md:py-32">
           <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
@@ -87,7 +87,7 @@ export default function DashboardPage() {
                     <CarouselContent>
                         <CarouselItem>
                             <div className="p-1">
-                               <Card className="bg-primary/10 border-primary/20 flex items-center justify-between p-8 md:p-12 rounded-lg">
+                               <Card className="flex items-center justify-between p-8 md:p-12 rounded-lg">
                                     <div className="max-w-xl">
                                         <h2 className="font-headline text-3xl font-bold text-primary">Find the Perfect Freelancer, Faster</h2>
                                         <p className="mt-2 text-primary/80">Our AI-driven matching connects you with the ideal candidate based on skills, experience, and project needs.</p>
@@ -98,10 +98,10 @@ export default function DashboardPage() {
                         </CarouselItem>
                          <CarouselItem>
                             <div className="p-1">
-                               <Card className="bg-accent/10 border-accent/20 flex items-center justify-between p-8 md:p-12 rounded-lg">
+                               <Card className="flex items-center justify-between p-8 md:p-12 rounded-lg">
                                     <div className="max-w-xl">
-                                        <h2 className="font-headline text-3xl font-bold text-accent-foreground">Discover Your Next Big Project</h2>
-                                        <p className="mt-2 text-accent-foreground/80">Get matched with high-quality job opportunities that align with your unique skills and career goals.</p>
+                                        <h2 className="font-headline text-3xl font-bold">Discover Your Next Big Project</h2>
+                                        <p className="mt-2 text-muted-foreground">Get matched with high-quality job opportunities that align with your unique skills and career goals.</p>
                                     </div>
                                     <Image src="https://placehold.co/400x250.png" alt="Job Opportunities" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="modern office" />
                                </Card>
@@ -192,6 +192,6 @@ export default function DashboardPage() {
             </div>
         </section>
         
-      </main>
+      </div>
   );
 }

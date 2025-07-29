@@ -5,7 +5,6 @@ import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle }
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Briefcase } from 'lucide-react';
-import { cn } from '@/lib/utils';
 
 interface JobCardProps {
   job: JobPosting;
@@ -53,6 +52,9 @@ export function JobCard({ job, isCompact = false }: JobCardProps) {
           {job.requiredSkills.slice(0, 4).map((skill) => (
             <Badge key={skill} variant="secondary">{skill}</Badge>
           ))}
+           {job.requiredSkills.length > 4 && (
+            <Badge variant="outline">+{job.requiredSkills.length - 4} more</Badge>
+          )}
         </div>
       </CardContent>
       <CardFooter className="bg-secondary/50 p-4 flex justify-between items-center">

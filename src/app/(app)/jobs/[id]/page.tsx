@@ -3,7 +3,6 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { FreelancerCard } from '@/components/freelancers/freelancer-card';
 import { PaymentButton } from '@/components/jobs/payment-button';
 import { Users, DollarSign, CheckSquare } from 'lucide-react';
 import Link from 'next/link';
@@ -15,8 +14,9 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
     notFound();
   }
 
+  // Show freelancers who have at least one of the required skills.
   const matchedFreelancers = freelancers.filter(freelancer =>
-    job.requiredSkills.every(skill => freelancer.skills.includes(skill))
+    job.requiredSkills.some(skill => freelancer.skills.includes(skill))
   );
 
   return (

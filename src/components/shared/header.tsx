@@ -3,7 +3,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -45,13 +45,24 @@ function NavLink({ href, label, onLinkClick }: { href: string; label: string, on
 }
 
 function UserNav() {
-    const [isLoggedIn, setIsLoggedIn] = React.useState(true); // Default to logged in for demo
+    const router = useRouter();
+    const pathname = usePathname();
+
+    // In a real app, this would be determined by an auth session.
+    // For this demo, we'll consider any page under /app as "logged in".
+    const isLoggedIn = !pathname.startsWith('/login');
+
+    const handleLogout = () => {
+        router.push('/login');
+    };
 
     if (!isLoggedIn) {
         return (
-            <Button onClick={() => setIsLoggedIn(true)}>
-                Login
-                <LogIn className="ml-2 h-4 w-4" />
+            <Button asChild>
+                <Link href="/login">
+                  Login
+                  <LogIn className="ml-2 h-4 w-4" />
+                </Link>
             </Button>
         );
     }
@@ -83,7 +94,7 @@ function UserNav() {
               <Link href="/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem onClick={() => setIsLoggedIn(false)}>
+            <DropdownMenuItem onClick={handleLogout}>
                 Log out
             </DropdownMenuItem>
         </DropdownMenuContent>
@@ -94,39 +105,46 @@ function UserNav() {
 
 export function Header() {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
+  const pathname = usePathname();
+  const isLoggedIn = !pathname.startsWith('/login');
+
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 max-w-screen-2xl items-center px-4 md:px-6">
         {/* Mobile Menu & Logo */}
         <div className="flex items-center md:hidden">
-          <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <Menu className="h-6 w-6" />
-                <span className="sr-only">Toggle navigation menu</span>
-              </Button>
-            </SheetTrigger>
-            <SheetContent side="left">
-              <Logo className="mb-8" />
-              <nav className="flex flex-col gap-6">
-                {navLinks.map((link) => (
-                  <NavLink key={link.href} {...link} onLinkClick={() => setIsSheetOpen(false)} />
-                ))}
-              </nav>
-            </SheetContent>
-          </Sheet>
+          {isLoggedIn && (
+            <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <Menu className="h-6 w-6" />
+                  <span className="sr-only">Toggle navigation menu</span>
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left">
+                <Logo className="mb-8" />
+                <nav className="flex flex-col gap-6">
+                  {navLinks.map((link) => (
+                    <NavLink key={link.href} {...link} onLinkClick={() => setIsSheetOpen(false)} />
+                  ))}
+                </nav>
+              </SheetContent>
+            </Sheet>
+          )}
         </div>
         <div className="flex flex-1 justify-center md:flex-initial md:justify-start">
           <Logo />
         </div>
 
         {/* Desktop Menu */}
-        <nav className="hidden md:flex flex-1 justify-center items-center gap-6 text-sm">
-          {navLinks.map((link) => (
-              <NavLink key={link.href} {...link} />
-          ))}
-        </nav>
+        {isLoggedIn && (
+            <nav className="hidden md:flex flex-1 justify-center items-center gap-6 text-sm">
+            {navLinks.map((link) => (
+                <NavLink key={link.href} {...link} />
+            ))}
+            </nav>
+        )}
 
         <div className="flex items-center justify-end md:flex-1">
             <UserNav />

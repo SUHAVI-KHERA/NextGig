@@ -48,7 +48,7 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
           </Card>
 
           {freelancer.videoResumeUrl && (
-            <Card>
+            <Card id="video-resume">
               <CardHeader>
                 <CardTitle className="font-headline flex items-center gap-2"><Video className="w-5 h-5 text-primary" /> Video Resume</CardTitle>
               </CardHeader>

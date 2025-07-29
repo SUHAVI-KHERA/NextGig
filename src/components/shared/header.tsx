@@ -1,8 +1,9 @@
+
 'use client';
 
 import * as React from 'react';
 import Link from 'next/link';
-import { usePathname, useSearchParams } from 'next/navigation';
+import { usePathname } from 'next/navigation';
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet';
 import { Button } from '@/components/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
@@ -27,15 +28,11 @@ const navLinks = [
 
 function NavLink({ href, label, onLinkClick }: { href: string; label: string, onLinkClick?: () => void }) {
   const pathname = usePathname();
-  const searchParams = useSearchParams();
-  const isLoggedIn = searchParams.get('loggedin') === 'true';
-
-  const finalHref = isLoggedIn ? `${href}?loggedin=true` : href;
   const isActive = pathname === href;
 
   return (
     <Link
-      href={finalHref}
+      href={href}
       onClick={onLinkClick}
       className={cn(
         "text-sm font-medium transition-colors hover:text-primary",
@@ -48,16 +45,13 @@ function NavLink({ href, label, onLinkClick }: { href: string; label: string, on
 }
 
 function UserNav() {
-    const searchParams = useSearchParams();
-    const isLoggedIn = searchParams.get('loggedin') === 'true';
+    const [isLoggedIn, setIsLoggedIn] = React.useState(true); // Default to logged in for demo
 
     if (!isLoggedIn) {
         return (
-            <Button asChild>
-                <Link href="/login">
+            <Button onClick={() => setIsLoggedIn(true)}>
                 Login
                 <LogIn className="ml-2 h-4 w-4" />
-                </Link>
             </Button>
         );
     }
@@ -75,22 +69,22 @@ function UserNav() {
         <DropdownMenuContent className="w-56" align="end" forceMount>
             <DropdownMenuLabel className="font-normal">
             <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">Guest User</p>
+                <p className="text-sm font-medium leading-none">Aarav Sharma</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                guest@example.com
+                aarav.sharma@example.com
                 </p>
             </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>
-              <Link href="/profile?loggedin=true">Profile</Link>
+              <Link href="/profile">Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem asChild>
-              <Link href="/settings?loggedin=true">Settings</Link>
+              <Link href="/settings">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-                <Link href="/dashboard">Log out</Link>
+            <DropdownMenuItem onClick={() => setIsLoggedIn(false)}>
+                Log out
             </DropdownMenuItem>
         </DropdownMenuContent>
         </DropdownMenu>

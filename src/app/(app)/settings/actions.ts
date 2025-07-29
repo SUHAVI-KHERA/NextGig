@@ -1,7 +1,7 @@
+
 'use server';
 
 import { z } from 'zod';
-import { updateUserProfileInDb } from '@/lib/firebase/firestore';
 import { revalidatePath } from 'next/cache';
 
 const profileFormSchema = z.object({
@@ -35,19 +35,14 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export async function updateUserProfile(data: ProfileFormValues) {
   try {
-    const skillsArray = data.skills.split(',').map(skill => skill.trim());
-    const dataToSave = { ...data, skills: skillsArray };
+    // This is a simulation. In a real app, you would save this to a database.
+    console.log('Simulating profile update with data:', data);
     
-    const result = await updateUserProfileInDb(dataToSave);
-
-    if (result.success) {
-      // Revalidate the profile page to show the updated data immediately
-      revalidatePath('/profile');
-      revalidatePath('/settings');
-      return { success: true, message: 'Profile updated successfully!' };
-    } else {
-       return { success: false, message: 'Failed to update profile in database.' };
-    }
+    // Revalidate paths to reflect changes in a real app
+    revalidatePath('/profile');
+    revalidatePath('/settings');
+    
+    return { success: true, message: 'Profile updated successfully!' };
    
   } catch (error) {
     console.error('Error updating profile:', error);

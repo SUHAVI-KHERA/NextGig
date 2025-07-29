@@ -3,22 +3,20 @@
 
 import { useState, useEffect } from 'react';
 import { SettingsForm } from '@/components/settings/settings-form';
-import { getUserProfile } from '@/lib/firebase/firestore';
 import type { FreelancerProfile } from '@/lib/types';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Skeleton } from '@/components/ui/skeleton';
+import { freelancers } from '@/lib/data';
 
 export default function SettingsPage() {
   const [userProfile, setUserProfile] = useState<FreelancerProfile | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    async function fetchProfile() {
-      const profile = await getUserProfile();
-      setUserProfile(profile);
-      setLoading(false);
-    }
-    fetchProfile();
+    // Simulating a fetch from a static source
+    const profile = freelancers.find(f => f.id === '1');
+    setUserProfile(profile || null);
+    setLoading(false);
   }, []);
 
   return (
@@ -26,7 +24,7 @@ export default function SettingsPage() {
       <div className="mb-8">
         <h1 className="font-headline text-4xl font-bold">Settings</h1>
         <p className="text-muted-foreground mt-2">
-          Manage your account, profile settings, and generate AI content.
+          Manage your account and profile settings.
         </p>
       </div>
       {loading || !userProfile ? (

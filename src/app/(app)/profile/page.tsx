@@ -8,9 +8,9 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { History, Lightbulb, Mail, Pencil, Phone, User, Video } from 'lucide-react';
 import Link from 'next/link';
-import { getUserProfile } from '@/lib/firebase/firestore';
 import type { FreelancerProfile } from '@/lib/types';
 import { Skeleton } from '@/components/ui/skeleton';
+import { freelancers } from '@/lib/data';
 
 export default function ProfilePage() {
   const [userProfile, setUserProfile] = useState<FreelancerProfile | null>(null);
@@ -18,8 +18,9 @@ export default function ProfilePage() {
 
   useEffect(() => {
     async function fetchProfile() {
-      const profile = await getUserProfile();
-      setUserProfile(profile);
+      // Simulating a fetch from a static source
+      const profile = freelancers.find(f => f.id === '1');
+      setUserProfile(profile || null);
       setLoading(false);
     }
     fetchProfile();
@@ -92,7 +93,7 @@ export default function ProfilePage() {
       <div className="mb-8 flex justify-between items-center">
         <h1 className="font-headline text-4xl font-bold">My Profile</h1>
         <Button asChild variant="outline">
-          <Link href="/settings?loggedin=true">
+          <Link href="/settings">
             <Pencil className="mr-2 h-4 w-4" /> Edit Profile
           </Link>
         </Button>

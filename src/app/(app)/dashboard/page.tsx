@@ -25,19 +25,19 @@ const testimonials = [
     name: 'Sarah L.',
     title: 'Project Manager',
     quote: 'NextGig made it incredibly easy to find a talented developer for our project. The AI matching was spot-on and saved us hours of searching!',
-    avatar: 'https://placehold.co/100x100.png',
+    avatar: 'https://placehold.co/100x100.png/172038/EFEFEF?text=S',
   },
   {
     name: 'David C.',
     title: 'Mobile Developer',
     quote: "As a freelancer, finding high-quality leads is tough. NextGig's job board and AI suggestions helped me land a fantastic long-term contract.",
-    avatar: 'https://placehold.co/100x100.png',
+    avatar: 'https://placehold.co/100x100.png/172038/EFEFEF?text=D',
   },
    {
     name: 'Emily T.',
     title: 'Startup Founder',
     quote: "The quality of talent on NextGig is exceptional. We hired a UI/UX designer who completely transformed our app's user experience. Highly recommended!",
-    avatar: 'https://placehold.co/100x100.png',
+    avatar: 'https://placehold.co/100x100.png/172038/EFEFEF?text=E',
   },
 ];
 
@@ -51,8 +51,16 @@ export default function DashboardPage() {
       <div className="flex-1 px-4 md:px-6">
         {/* Hero Section */}
         <section className="relative py-20 md:py-32">
-          <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
+           <div className="absolute inset-0">
+                <Image
+                    src="https://storage.googleapis.com/project-spark-312615.appspot.com/generated/372a0149-623d-4c75-b286-6512ed7e3760.png"
+                    alt="Workspace"
+                    layout="fill"
+                    objectFit="cover"
+                    className="opacity-20"
+                />
+                <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background"></div>
+          </div>
           <div className="container relative z-10 text-center">
             <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-foreground to-foreground/80 text-transparent bg-clip-text">
               Where Talent Meets Opportunity
@@ -92,7 +100,7 @@ export default function DashboardPage() {
                                         <h2 className="font-headline text-3xl font-bold text-primary">Find the Perfect Freelancer, Faster</h2>
                                         <p className="mt-2 text-primary/80">Our AI-driven matching connects you with the ideal candidate based on skills, experience, and project needs.</p>
                                     </div>
-                                    <Image src="https://placehold.co/400x250.png" alt="AI Matching" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="abstract technology" />
+                                    <Image src="https://placehold.co/400x250.png/172038/EFEFEF" alt="AI Matching" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="abstract technology" />
                                </Card>
                             </div>
                         </CarouselItem>
@@ -103,7 +111,7 @@ export default function DashboardPage() {
                                         <h2 className="font-headline text-3xl font-bold">Discover Your Next Big Project</h2>
                                         <p className="mt-2 text-muted-foreground">Get matched with high-quality job opportunities that align with your unique skills and career goals.</p>
                                     </div>
-                                    <Image src="https://placehold.co/400x250.png" alt="Job Opportunities" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="modern office" />
+                                    <Image src="https://placehold.co/400x250.png/172038/EFEFEF" alt="Job Opportunities" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="modern office" />
                                </Card>
                             </div>
                         </CarouselItem>

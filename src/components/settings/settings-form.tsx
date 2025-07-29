@@ -236,5 +236,5 @@ export function SettingsForm({ userProfile }: { userProfile: FreelancerProfile }
           </Button>
         </form>
       </Form>
-    )
+    );
 }

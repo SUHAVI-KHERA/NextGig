@@ -5,7 +5,8 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { JobCard } from '@/components/jobs/job-card';
-import { Briefcase, DollarSign, History, Lightbulb, Video } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Briefcase, DollarSign, History, Lightbulb, MessageSquare, Video } from 'lucide-react';
 
 export default function FreelancerProfilePage({ params }: { params: { id: string } }) {
   const freelancer = freelancers.find((f) => f.id === params.id);
@@ -41,6 +42,7 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
                   ))}
                 </div>
               </div>
+               <Button variant="outline"><MessageSquare className="mr-2 h-4 w-4" /> Contact</Button>
             </CardHeader>
             <CardContent>
               <p className="text-foreground/90">{freelancer.bio}</p>

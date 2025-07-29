@@ -35,7 +35,7 @@ export default function LoginPage() {
                   <Input id="client-password" type="password" />
                 </div>
                  <Button asChild className="w-full">
-                  <Link href="/dashboard">Login / Sign Up</Link>
+                  <Link href="/dashboard?loggedin=true">Login / Sign Up</Link>
                 </Button>
               </CardContent>
             </Card>
@@ -56,7 +56,7 @@ export default function LoginPage() {
                   <Input id="freelancer-password" type="password" />
                 </div>
                 <Button asChild className="w-full">
-                  <Link href="/dashboard">Login / Sign Up</Link>
+                  <Link href="/dashboard?loggedin=true">Login / Sign Up</Link>
                 </Button>
               </CardContent>
             </Card>

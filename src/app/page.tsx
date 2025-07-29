@@ -69,13 +69,13 @@ export default function LandingPage() {
                 </Link>
               </Button>
             </div>
-            <div className="mt-12">
+            <div className="mt-12 container">
                 <Image 
-                    src="https://placehold.co/600x400.png"
+                    src="https://placehold.co/1600x600.png"
                     alt="Hero image"
-                    width={600}
-                    height={400}
-                    className="rounded-lg shadow-2xl mx-auto"
+                    width={1600}
+                    height={600}
+                    className="rounded-lg shadow-2xl mx-auto w-full h-auto object-cover"
                     data-ai-hint="office workspace"
                     priority
                 />

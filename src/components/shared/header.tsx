@@ -99,12 +99,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center">
-        <div className="mr-4 hidden md:flex">
-          <Logo />
-        </div>
-        
-        <div className="flex items-center md:hidden">
+      <div className="container flex h-16 items-center">
+        {/* Mobile Menu & Logo */}
+        <div className="md:hidden flex items-center">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
             <SheetTrigger asChild>
               <Button variant="ghost" size="icon">
@@ -122,19 +119,27 @@ export function Header() {
             </SheetContent>
           </Sheet>
         </div>
-
-        <div className="flex items-center justify-center md:hidden flex-1">
+        <div className="md:hidden flex-1 flex justify-center">
           <Logo />
         </div>
+        <div className="md:hidden" style={{width: '56px'}}></div> {/* Spacer for mobile */}
 
-        <nav className="hidden md:flex flex-1 justify-center items-center gap-6 text-sm">
-          {navLinks.map((link) => (
-            <NavLink key={link.href} {...link} />
-          ))}
-        </nav>
 
-        <div className="flex flex-1 items-center justify-end gap-4">
-           <UserNav />
+        {/* Desktop Menu */}
+        <div className="hidden md:flex items-center w-full">
+            <div className="flex-1">
+                <Logo />
+            </div>
+            
+            <nav className="flex-1 flex justify-center items-center gap-6 text-sm">
+            {navLinks.map((link) => (
+                <NavLink key={link.href} {...link} />
+            ))}
+            </nav>
+
+            <div className="flex-1 flex justify-end">
+                <UserNav />
+            </div>
         </div>
       </div>
     </header>

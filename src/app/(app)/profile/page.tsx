@@ -1,4 +1,7 @@
 
+'use client';
+
+import { useEffect, useState } from 'react';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -6,9 +9,72 @@ import { Button } from '@/components/ui/button';
 import { History, Lightbulb, Mail, Pencil, Phone, User, Video } from 'lucide-react';
 import Link from 'next/link';
 import { getUserProfile } from '@/lib/firebase/firestore';
+import type { FreelancerProfile } from '@/lib/types';
+import { Skeleton } from '@/components/ui/skeleton';
 
-export default async function ProfilePage() {
-  const userProfile = await getUserProfile();
+export default function ProfilePage() {
+  const [userProfile, setUserProfile] = useState<FreelancerProfile | null>(null);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchProfile() {
+      const profile = await getUserProfile();
+      setUserProfile(profile);
+      setLoading(false);
+    }
+    fetchProfile();
+  }, []);
+
+  if (loading || !userProfile) {
+    return (
+      <div className="container mx-auto py-8 px-4">
+        <div className="mb-8 flex justify-between items-center">
+          <Skeleton className="h-10 w-48" />
+          <Skeleton className="h-10 w-36" />
+        </div>
+        <div className="grid lg:grid-cols-3 gap-8">
+          <div className="lg:col-span-1 space-y-8">
+            <Card>
+              <CardContent className="pt-6 flex flex-col items-center text-center">
+                <Skeleton className="h-32 w-32 rounded-full mb-4" />
+                <Skeleton className="h-8 w-40 mb-2" />
+                <Skeleton className="h-6 w-56" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                  <CardTitle className="font-headline flex items-center gap-2"><User className="w-5 h-5 text-primary" /> Contact Information</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <Skeleton className="h-6 w-full" />
+                <Skeleton className="h-6 w-full" />
+              </CardContent>
+            </Card>
+          </div>
+          <div className="lg:col-span-2 space-y-8">
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline">About Me</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-4/5" />
+              </CardContent>
+            </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline">Skills</CardTitle>
+              </CardHeader>
+              <CardContent>
+                 <Skeleton className="h-10 w-full" />
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto py-8 px-4">

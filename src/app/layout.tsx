@@ -22,7 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="dark" style={{ colorScheme: 'dark' }} suppressHydrationWarning>
-      <body className={`${bodyFont.variable} ${headlineFont.variable} font-body antialiased min-h-screen bg-background`}>
+      <body className={`${bodyFont.variable} ${headlineFont.variable} font-body antialiased min-h-screen bg-background text-foreground`}>
         {children}
         <Toaster />
       </body>

@@ -49,8 +49,9 @@ function UserNav() {
     const pathname = usePathname();
 
     // In a real app, this would be determined by an auth session.
-    // For this demo, we'll consider any page under /app as "logged in".
-    const isLoggedIn = !pathname.startsWith('/login');
+    // For this demo, we'll consider any page under /app or /dashboard etc as "logged in".
+    const isLoggedIn = !['/login', '/'].includes(pathname);
+
 
     const handleLogout = () => {
         router.push('/login');
@@ -60,7 +61,7 @@ function UserNav() {
         return (
             <Button asChild>
                 <Link href="/login">
-                  Login
+                  Login / Sign Up
                   <LogIn className="ml-2 h-4 w-4" />
                 </Link>
             </Button>
@@ -106,7 +107,7 @@ function UserNav() {
 export function Header() {
   const [isSheetOpen, setIsSheetOpen] = React.useState(false);
   const pathname = usePathname();
-  const isLoggedIn = !pathname.startsWith('/login');
+  const isLoggedIn = !['/login', '/'].includes(pathname);
 
 
   return (

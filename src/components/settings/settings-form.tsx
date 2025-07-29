@@ -5,6 +5,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import type { FreelancerProfile } from '@/lib/types';
+import { useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -22,7 +23,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/com
 import { useToast } from '@/hooks/use-toast';
 import { Save } from 'lucide-react';
 import { updateUserProfile } from '@/app/(app)/settings/actions';
-import { useState } from 'react';
 
 const profileFormSchema = z.object({
   name: z.string().min(2, {

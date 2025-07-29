@@ -13,7 +13,7 @@ export default function SettingsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Simulating a fetch from a static source
+    // Simulating a fetch from a static source. In a real app, this would be from an API.
     const profile = freelancers.find(f => f.id === '1');
     setUserProfile(profile || null);
     setLoading(false);

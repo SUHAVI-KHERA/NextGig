@@ -36,11 +36,12 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 export async function updateUserProfile(data: ProfileFormValues) {
   try {
     // This is a simulation. In a real app, you would save this to a database.
+    // For now, we'll just log it to the console to show it's working.
     console.log('Simulating profile update with data:', data);
     
-    // Revalidate paths to reflect changes in a real app
-    revalidatePath('/profile');
-    revalidatePath('/settings');
+    // In a real app with a database, you would revalidate paths to show changes.
+    // revalidatePath('/profile');
+    // revalidatePath('/settings');
     
     return { success: true, message: 'Profile updated successfully!' };
    

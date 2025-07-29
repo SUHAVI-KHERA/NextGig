@@ -227,7 +227,6 @@ export function SettingsForm({ userProfile }: { userProfile: FreelancerProfile }
                     <FormMessage />
                   </FormItem>
                 )}
-              />
               </CardContent>
           </Card>
 

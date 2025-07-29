@@ -36,14 +36,14 @@ const prompt = ai.definePrompt({
   name: 'suggestSkillsPrompt',
   input: {schema: SuggestSkillsInputSchema},
   output: {schema: SuggestSkillsOutputSchema},
-  prompt: `You are an AI skill suggestion expert, adept at analyzing work history and job preferences to identify relevant skills for freelancers.
+  prompt: `You are an AI expert career advisor for freelancers. Your goal is to help them get hired.
 
-  Based on the provided work history and job preferences, suggest a list of skills that the freelancer should add to their profile to improve visibility and match with suitable job opportunities. Be concise and only list the skills, and format the response as a JSON array of strings.
+  Based on the provided work history and job preferences, suggest a list of skills that the freelancer should add to their profile to improve their chances of matching with high-quality job opportunities. Be concise and only list the skills.
 
   Work History: {{{workHistory}}}
   Job Preferences: {{{jobPreferences}}}
 
-  Ensure the suggested skills are relevant and aligned with the freelancer's background and interests.
+  Ensure the suggested skills are commercially valuable and directly relevant to the freelancer's stated career goals.
   `, 
 });
 

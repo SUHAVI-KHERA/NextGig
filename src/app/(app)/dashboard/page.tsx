@@ -52,19 +52,19 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col bg-secondary/50 border-primary/50 relative overflow-hidden">
-          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 bg-primary/20 rounded-full blur-3xl"></div>
-          <CardHeader>
+        <Card className="flex flex-col bg-primary/10 border-primary/20 relative overflow-hidden group hover:border-primary/50 transition-all duration-300">
+          <div className="absolute top-0 right-0 -mr-24 -mt-24 w-48 h-48 bg-primary/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500"></div>
+          <CardHeader className="relative z-10">
             <div className="flex items-center gap-4">
                <div className="p-3 bg-primary/20 rounded-full">
-                <Sparkles className="w-6 h-6 text-primary" />
+                <Sparkles className="w-6 h-6 text-primary animate-pulse" />
               </div>
-              <CardTitle className="font-headline text-primary-foreground">Improve Your Profile</CardTitle>
+              <CardTitle className="font-headline text-primary">Improve Your Profile</CardTitle>
             </div>
             <CardDescription className="pt-2 text-muted-foreground">Use our AI tool to get skill suggestions based on your work history and career goals.</CardDescription>
           </CardHeader>
-          <CardContent className="flex-grow flex items-end">
-            <Button asChild variant="outline" className="w-full bg-secondary hover:bg-secondary/80">
+          <CardContent className="relative z-10 flex-grow flex items-end">
+            <Button asChild variant="outline" className="w-full bg-secondary hover:bg-secondary/80 border-secondary-foreground/20">
               <Link href="/skill-suggester">
                 Get AI Suggestions <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

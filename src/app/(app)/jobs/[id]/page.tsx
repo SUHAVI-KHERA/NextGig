@@ -65,7 +65,7 @@ export default function JobDetailsPage({ params }: { params: { id: string } }) {
               <CardTitle className="font-headline flex items-center gap-2"><DollarSign className="w-5 h-5 text-primary" /> Project Budget</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-4xl font-bold text-primary">${job.budget.toLocaleString()}</p>
+              <p className="text-4xl font-bold text-primary mb-4">${job.budget.toLocaleString()}</p>
               <PaymentButton budget={job.budget} />
             </CardContent>
           </Card>

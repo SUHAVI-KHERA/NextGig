@@ -1,13 +1,12 @@
-import { freelancers, jobs } from '@/lib/data';
-import type { JobPosting } from '@/lib/types';
+import { freelancers } from '@/lib/data';
 import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { JobCard } from '@/components/jobs/job-card';
 import { Briefcase, DollarSign, History, Lightbulb, Video } from 'lucide-react';
 import { ChatDialog } from '@/components/chat/chat-dialog';
 import type { FreelancerProfile } from '@/lib/types';
+import { MatchedJobs } from '@/components/freelancers/matched-jobs';
 
 export default function FreelancerProfilePage({ params }: { params: { id: string } }) {
   const freelancer = freelancers.find((f) => f.id === params.id);
@@ -15,10 +14,6 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
   if (!freelancer) {
     notFound();
   }
-
-  const matchedJobs = jobs.filter(job => 
-    job.requiredSkills.some(skill => freelancer.skills.includes(skill))
-  );
 
   return (
     <div className="container mx-auto py-8 px-4">
@@ -100,16 +95,10 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
 
           <Card>
             <CardHeader>
-              <CardTitle className="font-headline flex items-center gap-2"><Briefcase className="w-5 h-5 text-primary" /> Matched Jobs</CardTitle>
+              <CardTitle className="font-headline flex items-center gap-2"><Briefcase className="w-5 h-5 text-primary" /> AI Matched Jobs</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-              {matchedJobs.length > 0 ? (
-                matchedJobs.slice(0,3).map((job) => (
-                  <JobCard key={job.id} job={job} isCompact={true} />
-                ))
-              ) : (
-                <p className="text-muted-foreground text-sm">No job matches found.</p>
-              )}
+              <MatchedJobs freelancerId={freelancer.id} />
             </CardContent>
           </Card>
         </div>

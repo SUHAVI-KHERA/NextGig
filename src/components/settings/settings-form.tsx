@@ -4,7 +4,7 @@
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
-import { freelancers } from '@/lib/data';
+import type { FreelancerProfile } from '@/lib/types';
 
 import { Button } from '@/components/ui/button';
 import {
@@ -53,23 +53,20 @@ const profileFormSchema = z.object({
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
-// This would typically be fetched for the logged-in user.
-const userProfile = freelancers[0];
-
-const defaultValues: Partial<ProfileFormValues> = {
-  name: userProfile.name,
-  title: userProfile.title,
-  bio: userProfile.bio,
-  workHistory: userProfile.workHistory,
-  jobPreferences: userProfile.jobPreferences,
-  skills: userProfile.skills.join(', '),
-  rate: userProfile.rate,
-  videoResumeUrl: userProfile.videoResumeUrl,
-};
-
-export function SettingsForm() {
+export function SettingsForm({ userProfile }: { userProfile: FreelancerProfile }) {
     const { toast } = useToast();
     const [isSaving, setIsSaving] = useState(false);
+
+    const defaultValues: Partial<ProfileFormValues> = {
+      name: userProfile.name,
+      title: userProfile.title,
+      bio: userProfile.bio,
+      workHistory: userProfile.workHistory,
+      jobPreferences: userProfile.jobPreferences,
+      skills: userProfile.skills.join(', '),
+      rate: userProfile.rate,
+      videoResumeUrl: userProfile.videoResumeUrl || '',
+    };
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
@@ -215,29 +212,23 @@ export function SettingsForm() {
                         </FormItem>
                     )}
                 />
-              </CardContent>
-          </Card>
-          
-          <Card>
-            <CardHeader>
-              <CardTitle>Video Resume</CardTitle>
-              <CardDescription>Link to a video resume you have hosted on a platform like YouTube or Vimeo.</CardDescription>
-            </CardHeader>
-            <CardContent>
-              <FormField
+                 <FormField
                 control={form.control}
                 name="videoResumeUrl"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Video URL</FormLabel>
-                    <FormControl>
+                     <FormControl>
                       <Input placeholder="https://example.com/your-video" {...field} />
                     </FormControl>
+                    <FormDescription>
+                        Link to a video resume you have hosted on a platform like YouTube or Vimeo.
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-            </CardContent>
+              </CardContent>
           </Card>
 
           <Button type="submit" disabled={isSaving}>

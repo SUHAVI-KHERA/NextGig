@@ -1,17 +1,14 @@
 
-import { freelancers } from '@/lib/data';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { History, Lightbulb, Mail, Pencil, Phone, User, Video } from 'lucide-react';
 import Link from 'next/link';
+import { getUserProfile } from '@/lib/firebase/firestore';
 
-// For demonstration, we'll use a static freelancer profile.
-// In a real app, you would fetch the logged-in user's data.
-const userProfile = freelancers[0]; 
-
-export default function ProfilePage() {
+export default async function ProfilePage() {
+  const userProfile = await getUserProfile();
 
   return (
     <div className="container mx-auto py-8 px-4">

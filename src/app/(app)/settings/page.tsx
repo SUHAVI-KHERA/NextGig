@@ -1,7 +1,10 @@
 
 import { SettingsForm } from '@/components/settings/settings-form';
+import { getUserProfile } from '@/lib/firebase/firestore';
 
-export default function SettingsPage() {
+export default async function SettingsPage() {
+  const userProfile = await getUserProfile();
+
   return (
     <div className="container mx-auto py-8 px-4">
       <div className="mb-8">
@@ -10,7 +13,7 @@ export default function SettingsPage() {
           Manage your account, profile settings, and generate AI content.
         </p>
       </div>
-      <SettingsForm />
+      <SettingsForm userProfile={userProfile} />
     </div>
   );
 }

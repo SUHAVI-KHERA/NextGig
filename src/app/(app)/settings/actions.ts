@@ -1,6 +1,8 @@
 'use server';
 
 import { z } from 'zod';
+import { updateUserProfileInDb } from '@/lib/firebase/firestore';
+import { revalidatePath } from 'next/cache';
 
 const profileFormSchema = z.object({
   name: z.string().min(2, {
@@ -33,12 +35,20 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export async function updateUserProfile(data: ProfileFormValues) {
   try {
-    // In a real application, you would save this data to your database.
-    // For this demo, we'll just log it to the server console.
-    console.log('Updating user profile with:', data);
+    const skillsArray = data.skills.split(',').map(skill => skill.trim());
+    const dataToSave = { ...data, skills: skillsArray };
+    
+    const result = await updateUserProfileInDb(dataToSave);
 
-    // We'll simulate a successful update.
-    return { success: true, message: 'Profile updated successfully!' };
+    if (result.success) {
+      // Revalidate the profile page to show the updated data immediately
+      revalidatePath('/profile');
+      revalidatePath('/settings');
+      return { success: true, message: 'Profile updated successfully!' };
+    } else {
+       return { success: false, message: 'Failed to update profile in database.' };
+    }
+   
   } catch (error) {
     console.error('Error updating profile:', error);
     return { success: false, message: 'Failed to update profile.' };

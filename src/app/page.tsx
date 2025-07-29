@@ -54,16 +54,7 @@ export default function LandingPage() {
       <main className="flex-1">
         {/* Hero Section */}
         <section className="relative py-20 md:py-32">
-          <div className="absolute inset-0">
-                <Image
-                    src="https://storage.googleapis.com/project-spark-312615.appspot.com/generated/372a0149-623d-4c75-b286-6512ed7e3760.png"
-                    alt="Workspace"
-                    layout="fill"
-                    objectFit="cover"
-                    className="opacity-20"
-                />
-                <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background"></div>
-          </div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-background/80 to-background"></div>
           <div className="container relative z-10 text-center">
             <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-foreground to-foreground/80 text-transparent bg-clip-text">
               Where Talent Meets Opportunity

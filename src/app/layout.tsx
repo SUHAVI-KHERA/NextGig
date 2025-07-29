@@ -3,11 +3,11 @@ import './globals.css';
 import { Toaster } from "@/components/ui/toaster"
 import { Inter, Poppins } from 'next/font/google';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
-const poppins = Poppins({ 
+const bodyFont = Inter({ subsets: ['latin'], variable: '--font-body' });
+const headlineFont = Poppins({ 
   subsets: ['latin'], 
   weight: ['400', '500', '600', '700'],
-  variable: '--font-poppins' 
+  variable: '--font-headline' 
 });
 
 export const metadata: Metadata = {
@@ -21,8 +21,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className='dark' style={{ colorScheme: 'dark' }} suppressHydrationWarning>
-      <body className={`${inter.variable} ${poppins.variable} font-body antialiased min-h-screen bg-background`}>
+    <html lang="en" style={{ colorScheme: 'light' }} suppressHydrationWarning>
+      <body className={`${bodyFont.variable} ${headlineFont.variable} font-body antialiased min-h-screen bg-background`}>
         {children}
         <Toaster />
       </body>

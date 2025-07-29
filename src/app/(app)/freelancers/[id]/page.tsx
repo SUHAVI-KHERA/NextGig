@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { JobCard } from '@/components/jobs/job-card';
-import { Briefcase, DollarSign, History, Lightbulb } from 'lucide-react';
+import { Briefcase, DollarSign, History, Lightbulb, Video } from 'lucide-react';
 
 export default function FreelancerProfilePage({ params }: { params: { id: string } }) {
   const freelancer = freelancers.find((f) => f.id === params.id);
@@ -46,6 +46,25 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
               <p className="text-foreground/90">{freelancer.bio}</p>
             </CardContent>
           </Card>
+
+          {freelancer.videoResumeUrl && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline flex items-center gap-2"><Video className="w-5 h-5 text-primary" /> Video Resume</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="aspect-video rounded-lg overflow-hidden border">
+                  <video
+                    src={freelancer.videoResumeUrl}
+                    controls
+                    className="w-full h-full"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <Card>
             <CardHeader>

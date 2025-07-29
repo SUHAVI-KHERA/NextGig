@@ -25,19 +25,19 @@ const testimonials = [
     name: 'Sarah L.',
     title: 'Project Manager',
     quote: 'NextGig made it incredibly easy to find a talented developer for our project. The AI matching was spot-on and saved us hours of searching!',
-    avatar: 'https://placehold.co/100x100.png/172038/EFEFEF?text=S',
+    avatar: 'https://placehold.co/100x100.png',
   },
   {
     name: 'David C.',
     title: 'Mobile Developer',
     quote: "As a freelancer, finding high-quality leads is tough. NextGig's job board and AI suggestions helped me land a fantastic long-term contract.",
-    avatar: 'https://placehold.co/100x100.png/172038/EFEFEF?text=D',
+    avatar: 'https://placehold.co/100x100.png',
   },
    {
     name: 'Emily T.',
     title: 'Startup Founder',
     quote: "The quality of talent on NextGig is exceptional. We hired a UI/UX designer who completely transformed our app's user experience. Highly recommended!",
-    avatar: 'https://placehold.co/100x100.png/172038/EFEFEF?text=E',
+    avatar: 'https://placehold.co/100x100.png',
   },
 ];
 
@@ -71,6 +71,17 @@ export default function DashboardPage() {
                 </Link>
               </Button>
             </div>
+             <div className="mt-12">
+                <Image 
+                    src="https://placehold.co/600x400.png"
+                    alt="Hero image"
+                    width={600}
+                    height={400}
+                    className="rounded-lg shadow-2xl mx-auto"
+                    data-ai-hint="office workspace"
+                    priority
+                />
+            </div>
           </div>
         </section>
 
@@ -91,7 +102,7 @@ export default function DashboardPage() {
                                         <h2 className="font-headline text-3xl font-bold text-primary">Find the Perfect Freelancer, Faster</h2>
                                         <p className="mt-2 text-primary/80">Our AI-driven matching connects you with the ideal candidate based on skills, experience, and project needs.</p>
                                     </div>
-                                    <Image src="https://placehold.co/400x250.png/172038/EFEFEF" alt="AI Matching" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="abstract technology" />
+                                    <Image src="https://placehold.co/400x250.png" alt="AI Matching" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="abstract technology" />
                                </Card>
                             </div>
                         </CarouselItem>
@@ -102,7 +113,7 @@ export default function DashboardPage() {
                                         <h2 className="font-headline text-3xl font-bold">Discover Your Next Big Project</h2>
                                         <p className="mt-2 text-muted-foreground">Get matched with high-quality job opportunities that align with your unique skills and career goals.</p>
                                     </div>
-                                    <Image src="https://placehold.co/400x250.png/172038/EFEFEF" alt="Job Opportunities" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="modern office" />
+                                    <Image src="https://placehold.co/400x250.png" alt="Job Opportunities" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="modern office" />
                                </Card>
                             </div>
                         </CarouselItem>

@@ -21,6 +21,8 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import { Save } from 'lucide-react';
+import { updateUserProfile } from '@/app/(app)/settings/actions';
+import { useState } from 'react';
 
 const profileFormSchema = z.object({
   name: z.string().min(2, {
@@ -67,6 +69,7 @@ const defaultValues: Partial<ProfileFormValues> = {
 
 export function SettingsForm() {
     const { toast } = useToast();
+    const [isSaving, setIsSaving] = useState(false);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
@@ -74,13 +77,24 @@ export function SettingsForm() {
         mode: 'onChange',
     });
 
-    function onSubmit(data: ProfileFormValues) {
-        toast({
-            title: 'Profile Updated!',
-            description: 'Your changes have been saved successfully.',
-            className: 'bg-primary text-primary-foreground border-primary',
-        });
-        console.log(data);
+    async function onSubmit(data: ProfileFormValues) {
+        setIsSaving(true);
+        const result = await updateUserProfile(data);
+        setIsSaving(false);
+
+        if (result.success) {
+            toast({
+                title: 'Profile Updated!',
+                description: 'Your changes have been saved successfully.',
+                className: 'bg-primary text-primary-foreground border-primary',
+            });
+        } else {
+             toast({
+                title: 'Update Failed',
+                description: result.message,
+                variant: 'destructive',
+            });
+        }
     }
 
     return (
@@ -226,9 +240,9 @@ export function SettingsForm() {
             </CardContent>
           </Card>
 
-          <Button type="submit">
+          <Button type="submit" disabled={isSaving}>
               <Save className="mr-2 h-4 w-4" />
-              Save All Changes
+              {isSaving ? 'Saving...' : 'Save All Changes'}
           </Button>
         </form>
       </Form>

@@ -1,7 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { useToast } from '@/components/ui/use-toast';
+import { useToast } from '@/hooks/use-toast';
 import { Rocket } from 'lucide-react';
 
 export function PaymentButton({ budget }: { budget: number }) {

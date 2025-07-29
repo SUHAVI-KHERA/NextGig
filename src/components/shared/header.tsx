@@ -27,11 +27,15 @@ const navLinks = [
 
 function NavLink({ href, label, onLinkClick }: { href: string; label: string, onLinkClick?: () => void }) {
   const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const isLoggedIn = searchParams.get('loggedin') === 'true';
+
+  const finalHref = isLoggedIn ? `${href}?loggedin=true` : href;
   const isActive = pathname === href;
 
   return (
     <Link
-      href={href}
+      href={finalHref}
       onClick={onLinkClick}
       className={cn(
         "text-sm font-medium transition-colors hover:text-primary",
@@ -78,14 +82,14 @@ function UserNav() {
             </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
-              <Link href="/profile">Profile</Link>
+            <DropdownMenuItem asChild>
+              <Link href="/profile?loggedin=true">Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
             Settings
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>
+            <DropdownMenuItem asChild>
                 <Link href="/dashboard">Log out</Link>
             </DropdownMenuItem>
         </DropdownMenuContent>
@@ -119,24 +123,19 @@ export function Header() {
             </SheetContent>
           </Sheet>
         </div>
-        <div className="flex-1 flex justify-center md:hidden">
+        <div className="flex flex-1 justify-center md:flex-initial md:justify-start">
           <Logo />
         </div>
-        <div className="md:hidden" style={{width: '56px'}}></div> {/* Spacer for mobile right side */}
-
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex md:flex-1 md:items-center md:gap-6">
-            <Logo />
-            <nav className="flex-1 flex justify-center items-center gap-6 text-sm">
-              {navLinks.map((link) => (
-                  <NavLink key={link.href} {...link} />
-              ))}
-            </nav>
+        <nav className="hidden md:flex flex-1 justify-center items-center gap-6 text-sm">
+          {navLinks.map((link) => (
+              <NavLink key={link.href} {...link} />
+          ))}
+        </nav>
 
-            <div className="flex items-center justify-end">
-                <UserNav />
-            </div>
+        <div className="flex items-center justify-end md:flex-1">
+            <UserNav />
         </div>
       </div>
     </header>

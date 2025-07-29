@@ -7,7 +7,7 @@ export default function SettingsPage() {
       <div className="mb-8">
         <h1 className="font-headline text-4xl font-bold">Settings</h1>
         <p className="text-muted-foreground mt-2">
-          Manage your account and profile settings.
+          Manage your account, profile settings, and generate AI content.
         </p>
       </div>
       <SettingsForm />

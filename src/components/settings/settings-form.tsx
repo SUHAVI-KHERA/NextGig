@@ -20,7 +20,8 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
-import { Save } from 'lucide-react';
+import { Save, Sparkles, Film, Loader2 } from 'lucide-react';
+import { useState } from 'react';
 
 const profileFormSchema = z.object({
   name: z.string().min(2, {
@@ -46,6 +47,7 @@ const profileFormSchema = z.object({
   rate: z.coerce.number().min(1, {
     message: 'Rate must be a positive number.',
   }),
+  videoScript: z.string().optional(),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -61,10 +63,12 @@ const defaultValues: Partial<ProfileFormValues> = {
   jobPreferences: userProfile.jobPreferences,
   skills: userProfile.skills.join(', '),
   rate: userProfile.rate,
+  videoScript: `Hello, my name is ${userProfile.name}. As a ${userProfile.title}, I specialize in ${userProfile.skills.slice(0,2).join(' and ')}. I'm passionate about ${userProfile.jobPreferences.toLowerCase().substring(0, 50)}... Let's create something amazing together.`
 };
 
 export function SettingsForm() {
     const { toast } = useToast();
+    const [isGenerating, setIsGenerating] = useState(false);
 
     const form = useForm<ProfileFormValues>({
         resolver: zodResolver(profileFormSchema),
@@ -81,131 +85,201 @@ export function SettingsForm() {
         console.log(data);
     }
 
+    async function handleGenerateVideo() {
+        setIsGenerating(true);
+        const script = form.getValues('videoScript');
+        // In a real app, you would call the AI video generation flow here.
+        // For this demo, we'll just simulate it.
+        
+        toast({
+            title: 'Video Generation Started!',
+            description: "We're creating your video. This may take a few minutes. We'll notify you when it's ready.",
+        });
+
+        setTimeout(() => {
+            setIsGenerating(false);
+            toast({
+                title: 'Video Ready!',
+                description: "Your new AI-generated video resume has been added to your profile.",
+                className: "bg-primary text-primary-foreground border-primary",
+            });
+        }, 5000); // Simulate a 5-second generation time
+    }
+
     return (
-        <Card>
-            <CardHeader>
-                <CardTitle>Edit Profile</CardTitle>
-                <CardDescription>Make changes to your public profile here. Click save when you're done.</CardDescription>
-            </CardHeader>
-            <CardContent>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <div className="grid md:grid-cols-2 gap-8">
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Full Name</FormLabel>
+        <div className="grid lg:grid-cols-3 gap-8">
+            <div className="lg:col-span-2">
+                <Card>
+                    <CardHeader>
+                        <CardTitle>Edit Profile</CardTitle>
+                        <CardDescription>Make changes to your public profile here. Click save when you're done.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Form {...form}>
+                            <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+                                <div className="grid md:grid-cols-2 gap-8">
+                                    <FormField
+                                        control={form.control}
+                                        name="name"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Full Name</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="Your full name" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                    <FormField
+                                        control={form.control}
+                                        name="title"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Professional Title</FormLabel>
+                                                <FormControl>
+                                                    <Input placeholder="e.g. Senior Frontend Developer" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                </div>
+                                <FormField
+                                    control={form.control}
+                                    name="bio"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Bio</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="Your full name" {...field} />
+                                            <Textarea
+                                            placeholder="Tell us a little bit about yourself"
+                                            className="resize-y"
+                                            rows={4}
+                                            {...field}
+                                            />
                                         </FormControl>
                                         <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="title"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Professional Title</FormLabel>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="skills"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Skills</FormLabel>
                                         <FormControl>
-                                            <Input placeholder="e.g. Senior Frontend Developer" {...field} />
+                                            <Input placeholder="React, TypeScript, Figma..." {...field} />
+                                        </FormControl>
+                                        <FormDescription>
+                                            Enter your skills separated by commas.
+                                        </FormDescription>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                        control={form.control}
+                                        name="rate"
+                                        render={({ field }) => (
+                                            <FormItem>
+                                                <FormLabel>Hourly Rate ($)</FormLabel>
+                                                <FormControl>
+                                                    <Input type="number" placeholder="90" {...field} />
+                                                </FormControl>
+                                                <FormMessage />
+                                            </FormItem>
+                                        )}
+                                    />
+                                <FormField
+                                    control={form.control}
+                                    name="workHistory"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Work History</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                            placeholder="Describe your past work experiences."
+                                            rows={6}
+                                            {...field}
+                                            />
                                         </FormControl>
                                         <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                         <FormField
-                            control={form.control}
-                            name="bio"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Bio</FormLabel>
-                                <FormControl>
-                                    <Textarea
-                                    placeholder="Tell us a little bit about yourself"
-                                    className="resize-y"
-                                    rows={4}
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                            control={form.control}
-                            name="skills"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Skills</FormLabel>
-                                <FormControl>
-                                     <Input placeholder="React, TypeScript, Figma..." {...field} />
-                                </FormControl>
-                                 <FormDescription>
-                                    Enter your skills separated by commas.
-                                </FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                         <FormField
-                                control={form.control}
-                                name="rate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Hourly Rate ($)</FormLabel>
+                                        </FormItem>
+                                    )}
+                                />
+                                <FormField
+                                    control={form.control}
+                                    name="jobPreferences"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Job Preferences</FormLabel>
                                         <FormControl>
-                                            <Input type="number" placeholder="90" {...field} />
+                                            <Textarea
+                                            placeholder="Describe your ideal job or project."
+                                            rows={4}
+                                            {...field}
+                                            />
                                         </FormControl>
                                         <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                         <FormField
-                            control={form.control}
-                            name="workHistory"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Work History</FormLabel>
-                                <FormControl>
-                                    <Textarea
-                                    placeholder="Describe your past work experiences."
-                                    rows={6}
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="jobPreferences"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Job Preferences</FormLabel>
-                                <FormControl>
-                                    <Textarea
-                                    placeholder="Describe your ideal job or project."
-                                    rows={4}
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button type="submit">
-                            <Save className="mr-2 h-4 w-4" />
-                            Save Changes
-                        </Button>
-                    </form>
-                </Form>
-            </CardContent>
-        </Card>
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button type="submit">
+                                    <Save className="mr-2 h-4 w-4" />
+                                    Save Changes
+                                </Button>
+                            </form>
+                        </Form>
+                    </CardContent>
+                </Card>
+            </div>
+             <div className="lg:col-span-1">
+                <Card className="sticky top-24">
+                    <CardHeader>
+                        <CardTitle className="flex items-center gap-2"><Film /> AI Video Resume</CardTitle>
+                        <CardDescription>Generate a short, professional video resume using AI. Write a script below or use the default.</CardDescription>
+                    </CardHeader>
+                    <CardContent>
+                        <Form {...form}>
+                            <form className="space-y-4">
+                               <FormField
+                                    control={form.control}
+                                    name="videoScript"
+                                    render={({ field }) => (
+                                        <FormItem>
+                                        <FormLabel>Video Script</FormLabel>
+                                        <FormControl>
+                                            <Textarea
+                                            placeholder="Write your video script here..."
+                                            className="resize-y"
+                                            rows={8}
+                                            {...field}
+                                            />
+                                        </FormControl>
+                                        <FormMessage />
+                                        </FormItem>
+                                    )}
+                                />
+                                <Button type="button" onClick={handleGenerateVideo} disabled={isGenerating} className="w-full">
+                                    {isGenerating ? (
+                                        <>
+                                            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                                            Generating...
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Sparkles className="mr-2 h-4 w-4" />
+                                            Generate Video
+                                        </>
+                                    )}
+                                </Button>
+                            </form>
+                        </Form>
+                    </CardContent>
+                </Card>
+            </div>
+        </div>
     )
 }

@@ -14,10 +14,12 @@ export default function DashboardPage() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-3">
-        <Card className="flex flex-col">
+        <Card className="flex flex-col border-secondary hover:border-primary transition-colors duration-300">
           <CardHeader>
             <div className="flex items-center gap-4">
-              <Users className="w-8 h-8 text-primary" />
+              <div className="p-3 bg-secondary rounded-full">
+                <Users className="w-6 h-6 text-primary" />
+              </div>
               <CardTitle className="font-headline">Find Talent</CardTitle>
             </div>
             <CardDescription className="pt-2">Browse profiles of skilled freelancers ready to bring your projects to life.</CardDescription>
@@ -31,10 +33,12 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col">
+        <Card className="flex flex-col border-secondary hover:border-primary transition-colors duration-300">
           <CardHeader>
             <div className="flex items-center gap-4">
-              <Briefcase className="w-8 h-8 text-primary" />
+              <div className="p-3 bg-secondary rounded-full">
+                <Briefcase className="w-6 h-6 text-primary" />
+              </div>
               <CardTitle className="font-headline">Find Work</CardTitle>
             </div>
             <CardDescription className="pt-2">Discover exciting job opportunities tailored to your skills and preferences.</CardDescription>
@@ -48,16 +52,19 @@ export default function DashboardPage() {
           </CardContent>
         </Card>
 
-        <Card className="flex flex-col bg-accent/50 border-accent">
+        <Card className="flex flex-col bg-secondary/50 border-primary/50 relative overflow-hidden">
+          <div className="absolute top-0 right-0 -mr-16 -mt-16 w-48 h-48 bg-primary/20 rounded-full blur-3xl"></div>
           <CardHeader>
             <div className="flex items-center gap-4">
-              <Sparkles className="w-8 h-8 text-accent-foreground" />
-              <CardTitle className="font-headline text-accent-foreground">Improve Your Profile</CardTitle>
+               <div className="p-3 bg-primary/20 rounded-full">
+                <Sparkles className="w-6 h-6 text-primary" />
+              </div>
+              <CardTitle className="font-headline text-primary-foreground">Improve Your Profile</CardTitle>
             </div>
-            <CardDescription className="pt-2 text-accent-foreground/80">Use our AI tool to get skill suggestions based on your work history and career goals.</CardDescription>
+            <CardDescription className="pt-2 text-muted-foreground">Use our AI tool to get skill suggestions based on your work history and career goals.</CardDescription>
           </CardHeader>
           <CardContent className="flex-grow flex items-end">
-            <Button asChild variant="outline" className="w-full bg-background hover:bg-background/80">
+            <Button asChild variant="outline" className="w-full bg-secondary hover:bg-secondary/80">
               <Link href="/skill-suggester">
                 Get AI Suggestions <ArrowRight className="ml-2 h-4 w-4" />
               </Link>

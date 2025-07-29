@@ -30,22 +30,24 @@ export function JobCard({ job, isCompact = false }: JobCardProps) {
   }
 
   return (
-    <Card className="flex flex-col h-full overflow-hidden transition-shadow duration-300 hover:shadow-lg">
-      <CardHeader className="flex flex-row items-start gap-4">
-        <Image
-          src={job.logoUrl}
-          alt={`${job.company} logo`}
-          width={60}
-          height={60}
-          className="rounded-lg border p-1"
-          data-ai-hint="company logo"
-        />
+    <Card className="flex flex-col h-full overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 border-secondary">
+      <CardHeader className="flex flex-row items-start gap-4 p-4">
+        <div className="p-2 bg-secondary rounded-lg border border-border">
+          <Image
+            src={job.logoUrl}
+            alt={`${job.company} logo`}
+            width={48}
+            height={48}
+            className="rounded-md"
+            data-ai-hint="company logo"
+          />
+        </div>
         <div className="flex-1">
           <CardTitle className="font-headline text-xl">{job.title}</CardTitle>
           <CardDescription>{job.company}</CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex-grow">
+      <CardContent className="flex-grow p-4 pt-0">
         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{job.description}</p>
         <div className="flex flex-wrap gap-2">
           {job.requiredSkills.slice(0, 4).map((skill) => (
@@ -53,9 +55,9 @@ export function JobCard({ job, isCompact = false }: JobCardProps) {
           ))}
         </div>
       </CardContent>
-      <CardFooter className="bg-muted/50 p-4 flex justify-between items-center">
+      <CardFooter className="bg-secondary/50 p-4 flex justify-between items-center">
         <div className="font-semibold text-lg text-primary">${job.budget.toLocaleString()}</div>
-        <Button asChild size="sm" variant="ghost">
+        <Button asChild size="sm">
           <Link href={`/jobs/${job.id}`}>
             View Job <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

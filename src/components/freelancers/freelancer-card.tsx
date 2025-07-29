@@ -12,8 +12,8 @@ interface FreelancerCardProps {
 
 export function FreelancerCard({ freelancer }: FreelancerCardProps) {
   return (
-    <Card className="flex flex-col h-full overflow-hidden transition-shadow duration-300 hover:shadow-lg">
-      <CardHeader className="flex flex-row items-start gap-4">
+    <Card className="flex flex-col h-full overflow-hidden transition-all duration-300 hover:border-primary/50 hover:shadow-lg hover:shadow-primary/10 border-secondary">
+      <CardHeader className="flex flex-row items-start gap-4 p-4">
         <Image
           src={freelancer.avatarUrl}
           alt={freelancer.name}
@@ -24,10 +24,10 @@ export function FreelancerCard({ freelancer }: FreelancerCardProps) {
         />
         <div className="flex-1">
           <CardTitle className="font-headline text-xl">{freelancer.name}</CardTitle>
-          <CardDescription>{freelancer.title}</CardDescription>
+          <CardDescription className="text-primary">{freelancer.title}</CardDescription>
         </div>
       </CardHeader>
-      <CardContent className="flex-grow">
+      <CardContent className="flex-grow p-4 pt-0">
         <p className="text-sm text-muted-foreground mb-4 line-clamp-2">{freelancer.bio}</p>
         <div className="flex flex-wrap gap-2">
           {freelancer.skills.slice(0, 4).map((skill) => (
@@ -38,9 +38,9 @@ export function FreelancerCard({ freelancer }: FreelancerCardProps) {
           )}
         </div>
       </CardContent>
-      <CardFooter className="bg-muted/50 p-4 flex justify-between items-center">
-        <div className="font-semibold text-lg text-primary">${freelancer.rate}/hr</div>
-        <Button asChild size="sm" variant="ghost">
+      <CardFooter className="bg-secondary/50 p-4 flex justify-between items-center">
+        <div className="font-semibold text-lg text-foreground">${freelancer.rate}/hr</div>
+        <Button asChild size="sm">
           <Link href={`/freelancers/${freelancer.id}`}>
             View Profile <ArrowRight className="ml-2 h-4 w-4" />
           </Link>

@@ -17,52 +17,23 @@ import { MessageSquare, Send, Bot, Loader2 } from 'lucide-react';
 import type { FreelancerProfile } from '@/lib/types';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
-import { sendMessage } from '@/app/(app)/freelancers/[id]/actions';
+import { getSimpleAiResponse } from '@/app/(app)/freelancers/[id]/actions';
 import { Skeleton } from '../ui/skeleton';
-import { db } from '@/lib/firebase';
-import { collection, query, orderBy, onSnapshot, Timestamp } from 'firebase/firestore';
 
-interface FirestoreChatMessage {
-  id: string;
+interface ChatMessage {
+  id: number;
   sender: 'user' | 'freelancer';
   text: string;
-  createdAt: Timestamp;
+  timestamp: string;
 }
 
+
 export function ChatDialog({ freelancer }: { freelancer: FreelancerProfile }) {
-  const [messages, setMessages] = useState<FirestoreChatMessage[]>([]);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [newMessage, setNewMessage] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [isHistoryLoading, setIsHistoryLoading] = useState(true);
-
-  // For this demo, we'll use a consistent conversation ID between the user and freelancer.
-  // In a real app, this would be more dynamic, perhaps based on logged-in user IDs.
-  const conversationId = `user1_${freelancer.id}`;
+  
   const messagesEndRef = useRef<HTMLDivElement>(null);
-
-
-   useEffect(() => {
-    const messagesRef = collection(db, 'chats', conversationId, 'messages');
-    const q = query(messagesRef, orderBy('createdAt', 'asc'));
-
-    setIsHistoryLoading(true);
-
-    const unsubscribe = onSnapshot(q, (querySnapshot) => {
-      const msgs = querySnapshot.docs.map(doc => ({
-        id: doc.id,
-        ...doc.data(),
-         createdAt: doc.data().createdAt,
-      })) as FirestoreChatMessage[];
-      
-      setMessages(msgs);
-      setIsHistoryLoading(false);
-    }, (error) => {
-        console.error("Error fetching real-time messages:", error);
-        setIsHistoryLoading(false);
-    });
-
-    return () => unsubscribe();
-  }, [conversationId]);
 
 
   useEffect(() => {
@@ -74,19 +45,45 @@ export function ChatDialog({ freelancer }: { freelancer: FreelancerProfile }) {
     e.preventDefault();
     if (newMessage.trim() === '' || isLoading) return;
 
-    const messageText = newMessage;
+    const userMessageText = newMessage;
     setNewMessage('');
+
+    // Add user message to local state
+    const userMessage: ChatMessage = {
+        id: Date.now(),
+        sender: 'user',
+        text: userMessageText,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+    };
+    const currentChatHistory = [...messages, userMessage];
+    setMessages(currentChatHistory);
+    
     setIsLoading(true);
 
-    await sendMessage(freelancer, conversationId, messageText);
-    
+    // Get AI response
+    const aiResult = await getSimpleAiResponse(freelancer, currentChatHistory.map(m => ({sender: m.sender, text: m.text})));
+
+    if(aiResult.success && aiResult.response) {
+        const aiMessage: ChatMessage = {
+            id: Date.now() + 1,
+            sender: 'freelancer',
+            text: aiResult.response,
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        setMessages(prev => [...prev, aiMessage]);
+    } else {
+        const errorMessage: ChatMessage = {
+            id: Date.now() + 1,
+            sender: 'freelancer',
+            text: "I'm sorry, I seem to be having trouble connecting. Please try again in a moment.",
+            timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+        };
+        setMessages(prev => [...prev, errorMessage]);
+    }
+
     setIsLoading(false);
   };
 
-  const formatTimestamp = (timestamp: Timestamp | null) => {
-    if (!timestamp) return '';
-    return timestamp.toDate().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-  }
 
   return (
     <Dialog>
@@ -107,15 +104,11 @@ export function ChatDialog({ freelancer }: { freelancer: FreelancerProfile }) {
             Chat with {freelancer.name}
           </DialogTitle>
           <DialogDescription className="flex items-center justify-center text-xs gap-2 text-primary/80">
-            <Bot className="w-4 h-4" /> This conversation is powered by AI.
+            <Bot className="w-4 h-4" /> This conversation is powered by AI and is not saved.
           </DialogDescription>
         </DialogHeader>
         <div className="flex-grow overflow-y-auto p-4 space-y-4 bg-secondary/50 rounded-lg">
-          {isHistoryLoading ? (
-             <div className="flex items-center justify-center h-full">
-                <Loader2 className="h-8 w-8 animate-spin text-primary" />
-             </div>
-          ) : messages.length === 0 ? (
+           {messages.length === 0 ? (
              <div className="flex items-center justify-center h-full">
                 <p className="text-muted-foreground">Start the conversation!</p>
              </div>
@@ -148,7 +141,7 @@ export function ChatDialog({ freelancer }: { freelancer: FreelancerProfile }) {
                 >
                   <p className="text-sm whitespace-pre-wrap">{message.text}</p>
                   <p className={cn("text-xs mt-1", message.sender === 'user' ? 'text-primary-foreground/70 text-right' : 'text-muted-foreground/70' )}>
-                    {formatTimestamp(message.createdAt)}
+                    {message.timestamp}
                   </p>
                 </div>
               </div>
@@ -178,9 +171,9 @@ export function ChatDialog({ freelancer }: { freelancer: FreelancerProfile }) {
               onChange={(e) => setNewMessage(e.target.value)}
               placeholder="Type your message..."
               autoComplete="off"
-              disabled={isLoading || isHistoryLoading}
+              disabled={isLoading}
             />
-            <Button type="submit" size="icon" disabled={isLoading || isHistoryLoading}>
+            <Button type="submit" size="icon" disabled={isLoading}>
               <Send className="h-4 w-4" />
               <span className="sr-only">Send</span>
             </Button>

@@ -34,8 +34,8 @@ function NavLink({ href, label }: { href: string; label: string }) {
 
 export function Header() {
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+      <div className="container flex h-16 max-w-screen-2xl items-center">
         <div className="mr-4 hidden md:flex">
           <Logo />
         </div>
@@ -60,17 +60,17 @@ export function Header() {
         </div>
 
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="w-full flex-1 md:w-auto md:flex-none">
-             {/* Mobile Logo */}
-            <div className="flex justify-center md:hidden">
-                <Logo />
-            </div>
-          </div>
           <nav className="hidden md:flex md:gap-6">
             {navLinks.map((link) => (
               <NavLink key={link.href} {...link} />
             ))}
           </nav>
+           <div className="flex-1 md:hidden">
+            <div className="flex justify-center">
+              <Logo />
+            </div>
+          </div>
+          <div className='hidden md:block'></div>
         </div>
       </div>
     </header>

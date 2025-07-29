@@ -85,8 +85,8 @@ function UserNav() {
             <DropdownMenuItem asChild>
               <Link href="/profile?loggedin=true">Profile</Link>
             </DropdownMenuItem>
-            <DropdownMenuItem>
-            Settings
+            <DropdownMenuItem asChild>
+              <Link href="/settings?loggedin=true">Settings</Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem asChild>

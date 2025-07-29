@@ -18,7 +18,11 @@ export default function ProfilePage() {
     <div className="container mx-auto py-8 px-4">
       <div className="mb-8 flex justify-between items-center">
         <h1 className="font-headline text-4xl font-bold">My Profile</h1>
-        <Button variant="outline"><Pencil className="mr-2 h-4 w-4" /> Edit Profile</Button>
+        <Button asChild variant="outline">
+          <Link href="/settings?loggedin=true">
+            <Pencil className="mr-2 h-4 w-4" /> Edit Profile
+          </Link>
+        </Button>
       </div>
       
       <div className="grid lg:grid-cols-3 gap-8">

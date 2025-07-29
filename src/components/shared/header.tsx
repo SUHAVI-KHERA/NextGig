@@ -79,7 +79,7 @@ function UserNav() {
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem>
-            Profile
+              <Link href="/profile">Profile</Link>
             </DropdownMenuItem>
             <DropdownMenuItem>
             Settings
@@ -99,7 +99,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 max-w-screen-2xl items-center">
+      <div className="container flex h-16 max-w-screen-2xl items-center px-4 md:px-6">
         {/* Mobile Menu & Logo */}
         <div className="flex items-center md:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -126,18 +126,15 @@ export function Header() {
 
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex md:flex-1 md:items-center md:justify-between">
-            <div className="flex-none">
-                <Logo />
-            </div>
-            
-            <nav className="flex-grow flex justify-center items-center gap-6 text-sm">
+        <div className="hidden md:flex md:flex-1 md:items-center md:gap-6">
+            <Logo />
+            <nav className="flex-1 flex justify-center items-center gap-6 text-sm">
               {navLinks.map((link) => (
                   <NavLink key={link.href} {...link} />
               ))}
             </nav>
 
-            <div className="flex-none">
+            <div className="flex items-center justify-end">
                 <UserNav />
             </div>
         </div>

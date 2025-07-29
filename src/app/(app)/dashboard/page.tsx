@@ -1,139 +1,197 @@
 
 'use client';
 
-import { useEffect, useState } from 'react';
-import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Users, Briefcase, Sparkles, Loader2 } from "lucide-react";
-import Link from "next/link";
-import { matchJobsForFreelancer } from '@/ai/flows/match-jobs';
-import type { JobPosting } from '@/lib/types';
-import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
-import { MatchedJobCard } from '@/components/jobs/matched-job-card';
+import * as React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { ArrowRight, Code, Megaphone, Palette, Star, Users } from 'lucide-react';
+import { Carousel, CarouselContent, CarouselItem } from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay"
+import { freelancers } from '@/lib/data';
+import { FreelancerCard } from '@/components/freelancers/freelancer-card';
 
-interface MatchedJob {
-  jobId: string;
-  reason: string;
-  job: JobPosting;
-}
+const categories = [
+  { name: 'Developers', icon: <Code className="w-8 h-8 text-primary" />, href: '/freelancers' },
+  { name: 'Designers', icon: <Palette className="w-8 h-8 text-primary" />, href: '/freelancers' },
+  { name: 'Marketers', icon: <Megaphone className="w-8 h-8 text-primary" />, href: '/freelancers' },
+  { name: 'Consultants', icon: <Users className="w-8 h-8 text-primary" />, href: '/freelancers' },
+];
+
+const testimonials = [
+  {
+    name: 'Sarah L.',
+    title: 'Project Manager',
+    quote: 'NextGig made it incredibly easy to find a talented developer for our project. The AI matching was spot-on and saved us hours of searching!',
+    avatar: 'https://placehold.co/100x100.png',
+  },
+  {
+    name: 'David C.',
+    title: 'Mobile Developer',
+    quote: "As a freelancer, finding high-quality leads is tough. NextGig's job board and AI suggestions helped me land a fantastic long-term contract.",
+    avatar: 'https://placehold.co/100x100.png',
+  },
+   {
+    name: 'Emily T.',
+    title: 'Startup Founder',
+    quote: "The quality of talent on NextGig is exceptional. We hired a UI/UX designer who completely transformed our app's user experience. Highly recommended!",
+    avatar: 'https://placehold.co/100x100.png',
+  },
+];
+
 
 export default function DashboardPage() {
-  const [matchedJobs, setMatchedJobs] = useState<MatchedJob[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function fetchMatchedJobs() {
-      setIsLoading(true);
-      setError(null);
-      try {
-        // Using the default freelancer '1' for the dashboard
-        const result = await matchJobsForFreelancer({ freelancerId: '1' });
-        if (result && result.matchedJobs) {
-          setMatchedJobs(result.matchedJobs as MatchedJob[]);
-        }
-      } catch (e) {
-        setError('Failed to fetch AI job matches. Please try again later.');
-        console.error(e);
-      } finally {
-        setIsLoading(false);
-      }
-    }
-    fetchMatchedJobs();
-  }, []);
+    const plugin = React.useRef(
+      Autoplay({ delay: 4000, stopOnInteraction: true })
+    )
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="text-center mb-12">
-        <h1 className="font-headline text-4xl md:text-5xl font-bold tracking-tight text-foreground">Welcome back, Aarav!</h1>
-        <p className="mt-4 text-lg text-muted-foreground max-w-2xl mx-auto">
-          Here's your hub for finding talent, discovering projects, and improving your profile.
-        </p>
-      </div>
-
-      <div className="grid gap-8 lg:grid-cols-3 mb-12">
-        <Card className="border-secondary hover:border-primary transition-colors duration-300">
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-secondary rounded-full">
-                <Users className="w-6 h-6 text-primary" />
-              </div>
-              <CardTitle className="font-headline">Find Talent</CardTitle>
+      <main className="flex-1">
+        {/* Hero Section */}
+        <section className="relative py-20 md:py-32">
+          <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background"></div>
+          <div className="container relative z-10 text-center">
+            <h1 className="font-headline text-5xl md:text-7xl font-bold tracking-tight bg-gradient-to-b from-foreground to-foreground/80 text-transparent bg-clip-text">
+              Where Talent Meets Opportunity
+            </h1>
+            <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
+              NextGig is the AI-powered platform that connects top freelance talent with innovative projects. Your next great hire or gig is just a click away.
+            </p>
+            <div className="mt-8 flex justify-center gap-4">
+               <Button asChild size="lg">
+                <Link href="/jobs">
+                  Find Work <ArrowRight className="ml-2" />
+                </Link>
+              </Button>
+               <Button asChild size="lg" variant="outline">
+                <Link href="/freelancers">
+                  Find Talent <ArrowRight className="ml-2" />
+                </Link>
+              </Button>
             </div>
-          </CardHeader>
-          <CardContent>
-            <Button asChild className="w-full">
-              <Link href="/freelancers">
-                Explore Freelancers <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="border-secondary hover:border-primary transition-colors duration-300">
-          <CardHeader>
-            <div className="flex items-center gap-4">
-              <div className="p-3 bg-secondary rounded-full">
-                <Briefcase className="w-6 h-6 text-primary" />
-              </div>
-              <CardTitle className="font-headline">Find Work</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent>
-            <Button asChild className="w-full">
-              <Link href="/jobs">
-                Browse All Jobs <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-
-        <Card className="bg-primary/10 border-primary/20 relative overflow-hidden group hover:border-primary/50 transition-all duration-300">
-          <div className="absolute top-0 right-0 -mr-24 -mt-24 w-48 h-48 bg-primary/20 rounded-full blur-3xl group-hover:scale-150 transition-transform duration-500"></div>
-          <CardHeader className="relative z-10">
-            <div className="flex items-center gap-4">
-               <div className="p-3 bg-primary/20 rounded-full">
-                <Sparkles className="w-6 h-6 text-primary animate-pulse" />
-              </div>
-              <CardTitle className="font-headline text-primary">Improve Your Profile</CardTitle>
-            </div>
-          </CardHeader>
-          <CardContent className="relative z-10">
-            <Button asChild variant="outline" className="w-full bg-secondary hover:bg-secondary/80 border-secondary-foreground/20">
-              <Link href="/skill-suggester">
-                Get AI Suggestions <ArrowRight className="ml-2 h-4 w-4" />
-              </Link>
-            </Button>
-          </CardContent>
-        </Card>
-      </div>
-
-      <div>
-        <h2 className="font-headline text-3xl font-bold mb-6 text-center">Your AI-Matched Jobs</h2>
-        {isLoading && (
-          <div className="flex items-center justify-center py-8">
-            <Loader2 className="h-8 w-8 animate-spin text-primary" />
-            <p className="ml-3 text-muted-foreground">Finding the best opportunities for you...</p>
           </div>
-        )}
-        {error && (
-          <Alert variant="destructive" className="max-w-2xl mx-auto">
-            <AlertTitle>Error</AlertTitle>
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
-        {!isLoading && !error && (
-           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            {matchedJobs.length > 0 ? (
-              matchedJobs.map(({ job, reason }) => (
-                <MatchedJobCard key={job.id} job={job} reason={reason} />
-              ))
-            ) : (
-              <p className="text-muted-foreground text-center col-span-full">No specific AI job matches found at this time.</p>
-            )}
-          </div>
-        )}
-      </div>
-    </div>
+        </section>
+
+        {/* Carousel Section */}
+        <section className="py-12">
+            <div className="container">
+                 <Carousel
+                    plugins={[plugin.current]}
+                    className="w-full"
+                    onMouseEnter={plugin.current.stop}
+                    onMouseLeave={plugin.current.reset}
+                    >
+                    <CarouselContent>
+                        <CarouselItem>
+                            <div className="p-1">
+                               <Card className="bg-primary/10 border-primary/20 flex items-center justify-between p-8 md:p-12 rounded-lg">
+                                    <div className="max-w-xl">
+                                        <h2 className="font-headline text-3xl font-bold text-primary">Find the Perfect Freelancer, Faster</h2>
+                                        <p className="mt-2 text-primary/80">Our AI-driven matching connects you with the ideal candidate based on skills, experience, and project needs.</p>
+                                    </div>
+                                    <Image src="https://placehold.co/400x250.png" alt="AI Matching" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="abstract technology" />
+                               </Card>
+                            </div>
+                        </CarouselItem>
+                         <CarouselItem>
+                            <div className="p-1">
+                               <Card className="bg-accent/10 border-accent/20 flex items-center justify-between p-8 md:p-12 rounded-lg">
+                                    <div className="max-w-xl">
+                                        <h2 className="font-headline text-3xl font-bold text-accent-foreground">Discover Your Next Big Project</h2>
+                                        <p className="mt-2 text-accent-foreground/80">Get matched with high-quality job opportunities that align with your unique skills and career goals.</p>
+                                    </div>
+                                    <Image src="https://placehold.co/400x250.png" alt="Job Opportunities" width={400} height={250} className="hidden md:block rounded-lg shadow-lg" data-ai-hint="modern office" />
+                               </Card>
+                            </div>
+                        </CarouselItem>
+                    </CarouselContent>
+                </Carousel>
+            </div>
+        </section>
+
+        {/* Top Freelancers Section */}
+        <section className="py-20 md:py-24 bg-secondary/20">
+            <div className="container">
+                <div className="text-center mb-12">
+                    <h2 className="font-headline text-4xl font-bold">Meet Our Top Talent</h2>
+                    <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+                        A glimpse of the highly-skilled and trusted professionals in our network.
+                    </p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+                   {freelancers.slice(0, 4).map(f => (
+                       <FreelancerCard key={f.id} freelancer={f} />
+                   ))}
+                </div>
+                <div className="text-center mt-12">
+                    <Button asChild variant="outline">
+                        <Link href="/freelancers">Browse All Talent <ArrowRight className="ml-2" /></Link>
+                    </Button>
+                </div>
+            </div>
+        </section>
+
+        {/* Categories Section */}
+        <section className="py-20 md:py-24">
+            <div className="container">
+                <div className="text-center mb-12">
+                    <h2 className="font-headline text-4xl font-bold">Browse by Category</h2>
+                    <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+                        Find specialized talent for any role or project requirement.
+                    </p>
+                </div>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+                    {categories.map((category) => (
+                        <Link href={category.href} key={category.name} className="group">
+                             <Card className="text-center p-8 border-secondary hover:border-primary/50 hover:bg-secondary/30 transition-all duration-300 transform hover:-translate-y-1">
+                                <div className="mx-auto bg-secondary p-4 rounded-full w-fit mb-4 transition-colors group-hover:bg-primary/20">
+                                    {category.icon}
+                                </div>
+                                <h3 className="font-headline text-xl font-semibold">{category.name}</h3>
+                            </Card>
+                        </Link>
+                    ))}
+                </div>
+            </div>
+        </section>
+
+        {/* Testimonials Section */}
+        <section className="py-20 md:py-24 bg-secondary/20">
+            <div className="container">
+                 <div className="text-center mb-12">
+                    <h2 className="font-headline text-4xl font-bold">Trusted by a Thriving Community</h2>
+                    <p className="mt-4 text-muted-foreground max-w-2xl mx-auto">
+                        Hear what our clients and freelancers have to say about their experience.
+                    </p>
+                </div>
+                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                    {testimonials.map((testimonial, index) => (
+                        <Card key={index} className="p-6 bg-background">
+                            <CardContent className="p-0">
+                                <div className="flex items-center gap-4 mb-4">
+                                     <Avatar className="h-12 w-12 border-2 border-primary">
+                                        <AvatarImage src={testimonial.avatar} alt={testimonial.name} data-ai-hint="person avatar" />
+                                        <AvatarFallback>{testimonial.name.charAt(0)}</AvatarFallback>
+                                    </Avatar>
+                                    <div>
+                                        <p className="font-semibold">{testimonial.name}</p>
+                                        <p className="text-sm text-muted-foreground">{testimonial.title}</p>
+                                    </div>
+                                </div>
+                                <div className="flex gap-1 mb-4">
+                                    {[...Array(5)].map((_, i) => <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />)}
+                                </div>
+                                <p className="text-foreground/90 italic">&quot;{testimonial.quote}&quot;</p>
+                            </CardContent>
+                        </Card>
+                    ))}
+                </div>
+            </div>
+        </section>
+        
+      </main>
   );
 }

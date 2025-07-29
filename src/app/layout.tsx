@@ -11,7 +11,7 @@ const headlineFont = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: 'SkillSync',
+  title: 'NextGig',
   description: 'Find talent and work, powered by AI.',
 };
 

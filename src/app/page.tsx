@@ -25,19 +25,19 @@ const testimonials = [
   {
     name: 'Sarah L.',
     title: 'Project Manager',
-    quote: 'SkillSync made it incredibly easy to find a talented developer for our project. The AI matching was spot-on and saved us hours of searching!',
+    quote: 'NextGig made it incredibly easy to find a talented developer for our project. The AI matching was spot-on and saved us hours of searching!',
     avatar: 'https://placehold.co/100x100.png',
   },
   {
     name: 'David C.',
     title: 'Mobile Developer',
-    quote: "As a freelancer, finding high-quality leads is tough. SkillSync's job board and AI suggestions helped me land a fantastic long-term contract.",
+    quote: "As a freelancer, finding high-quality leads is tough. NextGig's job board and AI suggestions helped me land a fantastic long-term contract.",
     avatar: 'https://placehold.co/100x100.png',
   },
    {
     name: 'Emily T.',
     title: 'Startup Founder',
-    quote: "The quality of talent on SkillSync is exceptional. We hired a UI/UX designer who completely transformed our app's user experience. Highly recommended!",
+    quote: "The quality of talent on NextGig is exceptional. We hired a UI/UX designer who completely transformed our app's user experience. Highly recommended!",
     avatar: 'https://placehold.co/100x100.png',
   },
 ];
@@ -61,7 +61,7 @@ export default function LandingPage() {
               Where Talent Meets Opportunity
             </h1>
             <p className="mt-6 text-lg md:text-xl text-muted-foreground max-w-3xl mx-auto">
-              SkillSync is the AI-powered platform that connects top freelance talent with innovative projects. Your next great hire or gig is just a click away.
+              NextGig is the AI-powered platform that connects top freelance talent with innovative projects. Your next great hire or gig is just a click away.
             </p>
             <div className="mt-8 flex justify-center gap-4">
               <Button asChild size="lg">
@@ -195,7 +195,7 @@ export default function LandingPage() {
         {/* Footer */}
         <footer className="border-t border-border/40 py-8">
             <div className="container text-center text-muted-foreground text-sm">
-                <p>&copy; {new Date().getFullYear()} SkillSync. All rights reserved.</p>
+                <p>&copy; {new Date().getFullYear()} NextGig. All rights reserved.</p>
                 <p className="mt-2">A demo application built with Next.js and Firebase.</p>
             </div>
         </footer>

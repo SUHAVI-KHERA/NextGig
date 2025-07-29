@@ -4,7 +4,7 @@ import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { History, Lightbulb, Mail, Pencil, Phone, User } from 'lucide-react';
+import { History, Lightbulb, Mail, Pencil, Phone, User, Video } from 'lucide-react';
 import Link from 'next/link';
 
 // For demonstration, we'll use a static freelancer profile.
@@ -70,6 +70,26 @@ export default function ProfilePage() {
               <p className="text-foreground/90">{userProfile.bio}</p>
             </CardContent>
           </Card>
+          
+          {userProfile.videoResumeUrl && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline flex items-center gap-2"><Video className="w-5 h-5 text-primary" /> Video Resume</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="aspect-video w-full">
+                   <video
+                    src={userProfile.videoResumeUrl}
+                    controls
+                    className="w-full h-full rounded-lg bg-black"
+                    preload="metadata"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <Card>
             <CardHeader>

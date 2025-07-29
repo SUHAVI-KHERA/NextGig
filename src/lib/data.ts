@@ -11,7 +11,6 @@ export const freelancers: FreelancerProfile[] = [
     workHistory: 'Lead Developer at TechCorp (2018-2023), developed a large-scale e-commerce platform. Frontend Engineer at WebSolutions (2015-2018), worked on various client websites.',
     jobPreferences: 'Interested in remote frontend roles, particularly in the SaaS and e-commerce sectors. Prefers working with modern tech stacks like React and Next.js.',
     rate: 90,
-    videoResumeUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
   },
   {
     id: '2',
@@ -34,7 +33,6 @@ export const freelancers: FreelancerProfile[] = [
     workHistory: 'Senior UX Designer at DesignHub (2020-2023), led design on mobile apps. UI Designer at Creative Agency (2018-2020), designed marketing websites and brand identities.',
     jobPreferences: 'Seeking UI/UX design roles that involve user research and product strategy. Excited about working on mobile apps and complex web applications.',
     rate: 80,
-    videoResumeUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
   },
   {
     id: '4',
@@ -68,7 +66,6 @@ export const freelancers: FreelancerProfile[] = [
     workHistory: 'Data Scientist at Insights Corp (2018-Present). Data Analyst at Numbers Co (2016-2018).',
     jobPreferences: 'Roles in machine learning, predictive analytics, and natural language processing.',
     rate: 120,
-    videoResumeUrl: 'https://www.w3schools.com/html/mov_bbb.mp4',
   },
    {
     id: '7',

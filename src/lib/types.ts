@@ -8,7 +8,6 @@ export interface FreelancerProfile {
   workHistory: string;
   jobPreferences: string;
   rate: number;
-  videoResumeUrl?: string;
 }
 
 export interface JobPosting {

@@ -46,6 +46,7 @@ const profileFormSchema = z.object({
   rate: z.coerce.number().min(1, {
     message: 'Rate must be a positive number.',
   }),
+  videoResumeUrl: z.string().url({ message: 'Please enter a valid URL.' }).optional().or(z.literal('')),
 });
 
 type ProfileFormValues = z.infer<typeof profileFormSchema>;
@@ -61,6 +62,7 @@ const defaultValues: Partial<ProfileFormValues> = {
   jobPreferences: userProfile.jobPreferences,
   skills: userProfile.skills.join(', '),
   rate: userProfile.rate,
+  videoResumeUrl: userProfile.videoResumeUrl,
 };
 
 export function SettingsForm() {
@@ -82,130 +84,153 @@ export function SettingsForm() {
     }
 
     return (
-        <Card>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <Card>
+              <CardHeader>
+                  <CardTitle>Edit Profile</CardTitle>
+                  <CardDescription>Make changes to your public profile here. Click save when you're done.</CardDescription>
+              </CardHeader>
+              <CardContent className="space-y-8">
+                <div className="grid md:grid-cols-2 gap-8">
+                    <FormField
+                        control={form.control}
+                        name="name"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Full Name</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="Your full name" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                    <FormField
+                        control={form.control}
+                        name="title"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Professional Title</FormLabel>
+                                <FormControl>
+                                    <Input placeholder="e.g. Senior Frontend Developer" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                </div>
+                <FormField
+                    control={form.control}
+                    name="bio"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Bio</FormLabel>
+                        <FormControl>
+                            <Textarea
+                            placeholder="Tell us a little bit about yourself"
+                            className="resize-y"
+                            rows={4}
+                            {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="skills"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Skills</FormLabel>
+                        <FormControl>
+                            <Input placeholder="React, TypeScript, Figma..." {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Enter your skills separated by commas.
+                        </FormDescription>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                        control={form.control}
+                        name="rate"
+                        render={({ field }) => (
+                            <FormItem>
+                                <FormLabel>Hourly Rate ($)</FormLabel>
+                                <FormControl>
+                                    <Input type="number" placeholder="90" {...field} />
+                                </FormControl>
+                                <FormMessage />
+                            </FormItem>
+                        )}
+                    />
+                <FormField
+                    control={form.control}
+                    name="workHistory"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Work History</FormLabel>
+                        <FormControl>
+                            <Textarea
+                            placeholder="Describe your past work experiences."
+                            rows={6}
+                            {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+                <FormField
+                    control={form.control}
+                    name="jobPreferences"
+                    render={({ field }) => (
+                        <FormItem>
+                        <FormLabel>Job Preferences</FormLabel>
+                        <FormControl>
+                            <Textarea
+                            placeholder="Describe your ideal job or project."
+                            rows={4}
+                            {...field}
+                            />
+                        </FormControl>
+                        <FormMessage />
+                        </FormItem>
+                    )}
+                />
+              </CardContent>
+          </Card>
+          
+          <Card>
             <CardHeader>
-                <CardTitle>Edit Profile</CardTitle>
-                <CardDescription>Make changes to your public profile here. Click save when you're done.</CardDescription>
+              <CardTitle>Video Resume</CardTitle>
+              <CardDescription>Link to a video resume you have hosted on a platform like YouTube or Vimeo.</CardDescription>
             </CardHeader>
             <CardContent>
-                <Form {...form}>
-                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
-                        <div className="grid md:grid-cols-2 gap-8">
-                            <FormField
-                                control={form.control}
-                                name="name"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Full Name</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="Your full name" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                            <FormField
-                                control={form.control}
-                                name="title"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Professional Title</FormLabel>
-                                        <FormControl>
-                                            <Input placeholder="e.g. Senior Frontend Developer" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        </div>
-                        <FormField
-                            control={form.control}
-                            name="bio"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Bio</FormLabel>
-                                <FormControl>
-                                    <Textarea
-                                    placeholder="Tell us a little bit about yourself"
-                                    className="resize-y"
-                                    rows={4}
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="skills"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Skills</FormLabel>
-                                <FormControl>
-                                    <Input placeholder="React, TypeScript, Figma..." {...field} />
-                                </FormControl>
-                                <FormDescription>
-                                    Enter your skills separated by commas.
-                                </FormDescription>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                                control={form.control}
-                                name="rate"
-                                render={({ field }) => (
-                                    <FormItem>
-                                        <FormLabel>Hourly Rate ($)</FormLabel>
-                                        <FormControl>
-                                            <Input type="number" placeholder="90" {...field} />
-                                        </FormControl>
-                                        <FormMessage />
-                                    </FormItem>
-                                )}
-                            />
-                        <FormField
-                            control={form.control}
-                            name="workHistory"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Work History</FormLabel>
-                                <FormControl>
-                                    <Textarea
-                                    placeholder="Describe your past work experiences."
-                                    rows={6}
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <FormField
-                            control={form.control}
-                            name="jobPreferences"
-                            render={({ field }) => (
-                                <FormItem>
-                                <FormLabel>Job Preferences</FormLabel>
-                                <FormControl>
-                                    <Textarea
-                                    placeholder="Describe your ideal job or project."
-                                    rows={4}
-                                    {...field}
-                                    />
-                                </FormControl>
-                                <FormMessage />
-                                </FormItem>
-                            )}
-                        />
-                        <Button type="submit">
-                            <Save className="mr-2 h-4 w-4" />
-                            Save Changes
-                        </Button>
-                    </form>
-                </Form>
+              <FormField
+                control={form.control}
+                name="videoResumeUrl"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Video URL</FormLabel>
+                    <FormControl>
+                      <Input placeholder="https://example.com/your-video" {...field} />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </CardContent>
-        </Card>
+          </Card>
+
+          <Button type="submit">
+              <Save className="mr-2 h-4 w-4" />
+              Save All Changes
+          </Button>
+        </form>
+      </Form>
     )
 }

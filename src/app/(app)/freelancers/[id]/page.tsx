@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation';
 import Image from 'next/image';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Briefcase, DollarSign, History, Lightbulb } from 'lucide-react';
+import { Briefcase, DollarSign, History, Lightbulb, Video } from 'lucide-react';
 import { ChatDialog } from '@/components/chat/chat-dialog';
 import type { FreelancerProfile } from '@/lib/types';
 import { MatchedJobs } from '@/components/freelancers/matched-jobs';
@@ -44,6 +44,26 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
               <p className="text-foreground/90">{freelancer.bio}</p>
             </CardContent>
           </Card>
+
+          {freelancer.videoResumeUrl && (
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline flex items-center gap-2"><Video className="w-5 h-5 text-primary" /> Video Resume</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="aspect-video w-full">
+                   <video
+                    src={freelancer.videoResumeUrl}
+                    controls
+                    className="w-full h-full rounded-lg bg-black"
+                    preload="metadata"
+                  >
+                    Your browser does not support the video tag.
+                  </video>
+                </div>
+              </CardContent>
+            </Card>
+          )}
 
           <Card>
             <CardHeader>

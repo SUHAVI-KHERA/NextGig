@@ -4,7 +4,7 @@ import type { FreelancerProfile } from '@/lib/types';
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Video } from 'lucide-react';
 
 interface FreelancerCardProps {
   freelancer: FreelancerProfile;
@@ -23,8 +23,17 @@ export function FreelancerCard({ freelancer }: FreelancerCardProps) {
           data-ai-hint="person portrait"
         />
         <div className="flex-1">
-          <CardTitle className="font-headline text-xl">{freelancer.name}</CardTitle>
-          <CardDescription className="text-primary">{freelancer.title}</CardDescription>
+          <div className="flex justify-between items-start">
+            <div>
+              <CardTitle className="font-headline text-xl">{freelancer.name}</CardTitle>
+              <CardDescription className="text-primary">{freelancer.title}</CardDescription>
+            </div>
+            {freelancer.videoResumeUrl && (
+              <div className="p-2 bg-secondary rounded-full">
+                <Video className="w-5 h-5 text-primary" />
+              </div>
+            )}
+          </div>
         </div>
       </CardHeader>
       <CardContent className="flex-grow p-4 pt-0">

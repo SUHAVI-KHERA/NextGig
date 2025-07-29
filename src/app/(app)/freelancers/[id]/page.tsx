@@ -58,7 +58,7 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
             <Card>
               <CardHeader>
                 <CardTitle className="font-headline text-xl">Skills</CardTitle>
-              </Header>
+              </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2">
                     {freelancer.skills.map((skill) => (

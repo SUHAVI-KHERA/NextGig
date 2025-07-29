@@ -99,7 +99,7 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container flex h-16 items-center">
+      <div className="container flex h-16 max-w-screen-2xl items-center">
         {/* Mobile Menu & Logo */}
         <div className="flex items-center md:hidden">
           <Sheet open={isSheetOpen} onOpenChange={setIsSheetOpen}>
@@ -126,12 +126,12 @@ export function Header() {
 
 
         {/* Desktop Menu */}
-        <div className="hidden md:flex md:items-center md:w-full">
+        <div className="hidden md:flex md:flex-1 md:items-center md:justify-between">
             <div className="flex-none">
                 <Logo />
             </div>
             
-            <nav className="flex-1 flex justify-center items-center gap-6 text-sm">
+            <nav className="flex-grow flex justify-center items-center gap-6 text-sm">
               {navLinks.map((link) => (
                   <NavLink key={link.href} {...link} />
               ))}

@@ -6,6 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { FreelancerCard } from '@/components/freelancers/freelancer-card';
 import { PaymentButton } from '@/components/jobs/payment-button';
 import { Users, DollarSign, CheckSquare } from 'lucide-react';
+import Link from 'next/link';
 
 export default function JobDetailsPage({ params }: { params: { id: string } }) {
   const job = jobs.find((j) => j.id === params.id);

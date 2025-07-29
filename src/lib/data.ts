@@ -45,6 +45,28 @@ export const freelancers: FreelancerProfile[] = [
     jobPreferences: 'Roles focused on cloud infrastructure, site reliability engineering (SRE), or DevOps leadership. Interested in companies that are scaling their operations.',
     rate: 110,
   },
+  {
+    id: '5',
+    name: 'Ethan Hunt',
+    title: 'Mobile Developer (iOS & Android)',
+    avatarUrl: 'https://placehold.co/128x128.png',
+    skills: ['Swift', 'Kotlin', 'React Native', 'Firebase'],
+    bio: 'Dedicated mobile developer focused on creating smooth, user-friendly applications for both iOS and Android platforms.',
+    workHistory: 'Lead Mobile Developer at AppMakers (2019-Present). Junior Developer at MobileFirst (2017-2019).',
+    jobPreferences: 'Looking for challenging mobile projects that push the boundaries of user experience.',
+    rate: 100,
+  },
+  {
+    id: '6',
+    name: 'Fiona Glenanne',
+    title: 'Data Scientist',
+    avatarUrl: 'https://placehold.co/128x128.png',
+    skills: ['Python', 'Pandas', 'scikit-learn', 'TensorFlow', 'SQL'],
+    bio: 'Data scientist with a passion for uncovering insights from complex datasets and building predictive models.',
+    workHistory: 'Data Scientist at Insights Corp (2018-Present). Data Analyst at Numbers Co (2016-2018).',
+    jobPreferences: 'Roles in machine learning, predictive analytics, and natural language processing.',
+    rate: 120,
+  },
 ];
 
 export const jobs: JobPosting[] = [
@@ -83,5 +105,23 @@ export const jobs: JobPosting[] = [
     description: 'We need a security-focused engineer to help us secure our AWS infrastructure. Responsibilities include vulnerability scanning, identity and access management, and implementing security best practices.',
     requiredSkills: ['AWS', 'Security', 'Terraform', 'CI/CD'],
     budget: 14000,
+  },
+  {
+    id: '105',
+    title: 'Frontend Developer (Vue.js)',
+    company: 'FutureTech',
+    logoUrl: 'https://placehold.co/128x128.png',
+    description: 'We are looking for a skilled Vue.js developer to join our frontend team. You will be working on our customer-facing dashboard, building new features and improving existing ones.',
+    requiredSkills: ['Vue.js', 'Vuex', 'JavaScript', 'CSS'],
+    budget: 9000,
+  },
+  {
+    id: '106',
+    title: 'Senior Python Developer',
+    company: 'AutomateIt',
+    logoUrl: 'https://placehold.co/128x128.png',
+    description: 'Seeking a senior Python developer to work on our automation platform. Experience with Django, Celery, and Redis is highly desirable.',
+    requiredSkills: ['Python', 'Django', 'Celery', 'Redis'],
+    budget: 13000,
   },
 ];

@@ -213,20 +213,21 @@ export function SettingsForm({ userProfile }: { userProfile: FreelancerProfile }
                     )}
                 />
                  <FormField
-                control={form.control}
-                name="videoResumeUrl"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Video URL</FormLabel>
-                     <FormControl>
-                      <Input placeholder="https://example.com/your-video" {...field} />
-                    </FormControl>
-                    <FormDescription>
-                        Link to a video resume you have hosted on a platform like YouTube or Vimeo.
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
+                    control={form.control}
+                    name="videoResumeUrl"
+                    render={({ field }) => (
+                    <FormItem>
+                        <FormLabel>Video URL</FormLabel>
+                        <FormControl>
+                        <Input placeholder="https://example.com/your-video" {...field} />
+                        </FormControl>
+                        <FormDescription>
+                            Link to a video resume you have hosted on a platform like YouTube or Vimeo.
+                        </FormDescription>
+                        <FormMessage />
+                    </FormItem>
+                    )}
+                />
               </CardContent>
           </Card>
 

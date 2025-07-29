@@ -16,39 +16,62 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
   }
 
   return (
-    <div className="container mx-auto py-8 px-4">
-      <div className="grid lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 space-y-8">
-          <Card>
-            <CardHeader className="flex flex-col md:flex-row items-start gap-6">
+    <div className="container mx-auto max-w-5xl py-12 px-4">
+      <div className="grid lg:grid-cols-3 gap-12">
+        {/* Left Column */}
+        <div className="lg:col-span-1 space-y-8">
+            <Card className="text-center p-6">
               <Image
                 src={freelancer.avatarUrl}
                 alt={freelancer.name}
                 width={120}
                 height={120}
-                className="rounded-full border-4 border-primary shadow-md"
+                className="rounded-full border-4 border-primary shadow-lg mx-auto mb-4"
                 data-ai-hint="person portrait"
               />
-              <div className="flex-1 mt-2 md:mt-0">
-                <h1 className="font-headline text-4xl font-bold">{freelancer.name}</h1>
-                <p className="text-xl text-primary font-medium">{freelancer.title}</p>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {freelancer.skills.map((skill) => (
-                    <Badge key={skill} variant="default">{skill}</Badge>
-                  ))}
-                </div>
-              </div>
-               <ChatDialog freelancer={freelancer as FreelancerProfile} />
+              <h1 className="font-headline text-2xl font-bold">{freelancer.name}</h1>
+              <p className="text-lg text-primary font-medium mb-4">{freelancer.title}</p>
+              <ChatDialog freelancer={freelancer as FreelancerProfile} />
+            </Card>
+
+            <Card>
+            <CardHeader>
+              <CardTitle className="font-headline text-xl flex items-center gap-2"><DollarSign className="w-5 h-5 text-primary" /> Hourly Rate</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-foreground/90">{freelancer.bio}</p>
+              <p className="text-4xl font-bold">${freelancer.rate}<span className="text-lg text-muted-foreground font-normal">/hr</span></p>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Right Column */}
+        <div className="lg:col-span-2 space-y-8">
+            <Card>
+                <CardHeader>
+                    <CardTitle className="font-headline text-xl">About Me</CardTitle>
+                </CardHeader>
+                <CardContent>
+                     <p className="text-muted-foreground">{freelancer.bio}</p>
+                </CardContent>
+            </Card>
+
+            <Card>
+              <CardHeader>
+                <CardTitle className="font-headline text-xl">Skills</CardTitle>
+              </Header>
+              <CardContent>
+                <div className="flex flex-wrap gap-2">
+                    {freelancer.skills.map((skill) => (
+                        <Badge key={skill} variant="secondary" className="text-base py-1 px-3">{skill}</Badge>
+                    ))}
+                </div>
+              </CardContent>
+            </Card>
 
           {freelancer.videoResumeUrl && (
             <Card>
               <CardHeader>
-                <CardTitle className="font-headline flex items-center gap-2"><Video className="w-5 h-5 text-primary" /> Video Resume</CardTitle>
+                <CardTitle className="font-headline text-xl flex items-center gap-2"><Video className="w-5 h-5 text-primary" /> Video Resume</CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="aspect-video w-full">
@@ -67,7 +90,7 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
 
           <Card>
             <CardHeader>
-              <CardTitle className="font-headline flex items-center gap-2"><History className="w-5 h-5 text-primary" /> Work History</CardTitle>
+              <CardTitle className="font-headline text-xl flex items-center gap-2"><History className="w-5 h-5 text-primary" /> Work History</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground whitespace-pre-wrap">{freelancer.workHistory}</p>
@@ -76,27 +99,16 @@ export default function FreelancerProfilePage({ params }: { params: { id: string
 
           <Card>
             <CardHeader>
-              <CardTitle className="font-headline flex items-center gap-2"><Lightbulb className="w-5 h-5 text-primary" /> Job Preferences</CardTitle>
+              <CardTitle className="font-headline text-xl flex items-center gap-2"><Lightbulb className="w-5 h-5 text-primary" /> Job Preferences</CardTitle>
             </CardHeader>
             <CardContent>
               <p className="text-muted-foreground whitespace-pre-wrap">{freelancer.jobPreferences}</p>
             </CardContent>
           </Card>
-        </div>
 
-        <div className="space-y-8">
-          <Card>
+           <Card>
             <CardHeader>
-              <CardTitle className="font-headline flex items-center gap-2"><DollarSign className="w-5 h-5 text-primary" /> Hourly Rate</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <p className="text-4xl font-bold text-primary">${freelancer.rate}<span className="text-lg text-muted-foreground font-normal">/hr</span></p>
-            </CardContent>
-          </Card>
-
-          <Card>
-            <CardHeader>
-              <CardTitle className="font-headline flex items-center gap-2"><Briefcase className="w-5 h-5 text-primary" /> AI Matched Jobs</CardTitle>
+              <CardTitle className="font-headline text-xl flex items-center gap-2"><Briefcase className="w-5 h-5 text-primary" /> AI Matched Jobs</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
               <MatchedJobs freelancerId={freelancer.id} />

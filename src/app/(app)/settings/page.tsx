@@ -37,15 +37,40 @@ export default function SettingsPage() {
             </CardHeader>
             <CardContent className="space-y-8">
               <div className="grid md:grid-cols-2 gap-8">
-                <Skeleton className="h-10 w-full" />
-                <Skeleton className="h-10 w-full" />
+                <div className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
+                 <div className="space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
               </div>
-              <Skeleton className="h-24 w-full" />
-              <Skeleton className="h-10 w-full" />
-              <Skeleton className="h-10 w-1/2" />
-               <Skeleton className="h-24 w-full" />
-               <Skeleton className="h-24 w-full" />
-               <Skeleton className="h-10 w-full" />
+               <div className="space-y-2">
+                    <Skeleton className="h-4 w-16" />
+                    <Skeleton className="h-24 w-full" />
+                </div>
+                <div className="space-y-2">
+                    <Skeleton className="h-4 w-16" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
+                <div className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-10 w-1/2" />
+                </div>
+               <div className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-24 w-full" />
+                </div>
+                <div className="space-y-2">
+                    <Skeleton className="h-4 w-32" />
+                    <Skeleton className="h-24 w-full" />
+                </div>
+               <div className="space-y-2">
+                    <Skeleton className="h-4 w-24" />
+                    <Skeleton className="h-10 w-full" />
+                </div>
+                 <Skeleton className="h-10 w-40" />
             </CardContent>
         </Card>
       ) : (

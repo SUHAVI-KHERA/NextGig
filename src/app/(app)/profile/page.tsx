@@ -70,6 +70,17 @@ export default function ProfilePage() {
                  <Skeleton className="h-10 w-full" />
               </CardContent>
             </Card>
+             <Card>
+              <CardHeader>
+                <CardTitle className="font-headline flex items-center gap-2"><History className="w-5 h-5 text-primary" /> Work History</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-2">
+                <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-full" />
+                 <Skeleton className="h-4 w-full" />
+                <Skeleton className="h-4 w-4/5" />
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>
